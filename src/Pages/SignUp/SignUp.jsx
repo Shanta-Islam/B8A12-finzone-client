@@ -7,7 +7,6 @@ import { AuthContext } from "../../Context/AuthProvider";
 import toast from "react-hot-toast";
 import { GoogleAuthProvider } from "firebase/auth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
-// import useBadge from "../../Hooks/useBadge";
 import bronzeBadge from "../../assets/bronze.png";
 import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import GoogleIcon from '@mui/icons-material/Google';
@@ -16,7 +15,6 @@ import GoogleIcon from '@mui/icons-material/Google';
 
 const SignUp = () => {
     const axiosPublic = useAxiosPublic();
-    // const goldBadge = useBadge();
     const googleProvider = new GoogleAuthProvider();
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const { createUser, updateUserProfile, googleSignIn } = useContext(AuthContext);
