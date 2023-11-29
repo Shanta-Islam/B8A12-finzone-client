@@ -12,6 +12,9 @@ import {
   import MyPosts from "../Pages/Dashboard/MyPosts/MyPosts";
   import ManageUsers from "../Pages/Dashboard/ManageUsers/ManageUsers";
   import CreateAnnouncement from "../Pages/Dashboard/CreateAnnouncement/CreateAnnouncement";
+import PostDetails from "../Pages/PostDetails/PostDetails";
+import AdminProfile from "../Pages/Dashboard/AdminProfile/AdminProfile";
+import AdminRoute from "./AdminRoute";
   
   
   
@@ -32,11 +35,11 @@ import {
           path: '/register',
           element: <SignUp></SignUp>
         },
-        // {
-        //   path: '/post/:id',
-        //   element: <PostDetails></PostDetails>,
-        //   loader: ({ params }) => fetch(`http://localhost:5000/post/${params.id}`)
-        // }
+        {
+          path: '/post/:id',
+          element: <PostDetails></PostDetails>,
+          loader: ({ params }) => fetch(`http://localhost:5000/post/${params.id}`)
+        }
   
       ]
     },
@@ -60,12 +63,16 @@ import {
         
         // admin only routes
         {
+          path: 'adminProfile',
+          element: <AdminRoute><AdminProfile></AdminProfile></AdminRoute>
+        },
+        {
           path: 'manageUsers',
-          element: <ManageUsers></ManageUsers>
+          element: <AdminRoute><ManageUsers></ManageUsers></AdminRoute>
         },
         {
           path: 'createAnnouncement',
-          element: <CreateAnnouncement></CreateAnnouncement>
+          element: <AdminRoute><CreateAnnouncement></CreateAnnouncement></AdminRoute>
         },
   
   

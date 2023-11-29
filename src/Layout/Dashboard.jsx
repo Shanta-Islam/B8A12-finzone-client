@@ -17,6 +17,7 @@ import Toolbar from '@mui/material/Toolbar';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useState } from 'react';
 import { Block, Campaign, Edit, Home, ListAlt, PeopleAlt } from '@mui/icons-material';
+import useAdmin from '../Hooks/useAdmin';
 
 const drawerWidth = 240;
 
@@ -27,7 +28,8 @@ function Dashboard(props) {
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
-    const isAdmin = true;
+    // const [isAdmin] = useAdmin();
+    const isAdmin = false;
     const drawer = (
         <div>
             <Toolbar />

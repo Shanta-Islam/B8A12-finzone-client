@@ -63,13 +63,13 @@ const MyPosts = () => {
     }
 
     useEffect(() => {
-        fetch('http://localhost:5000/postsCount')
+        fetch(`http://localhost:5000/postsCount/${user?.email}`)
             .then(res => res.json())
             .then(data => {
                 setCount(data.count)
                 refetch()
             })
-    }, [refetch])
+    }, [refetch, user?.email])
     // const handleItemPerPage = e => {
     //     const val = parseInt(e.target.value);
     //     SetItemPerPage(val);
@@ -85,10 +85,10 @@ const MyPosts = () => {
             setCurrentPage(currentPage + 1);
         }
     }
-    // console.log(count)
+    console.log(count)
     return (
         <Grid>
-            <Typography variant="h4" sx={{textAlign:'center'}}>My Posts</Typography>
+            <Typography variant="h4" sx={{ textAlign: 'center' }}>My Posts</Typography>
             <TableContainer component='main' container sx={{ padding: '30px 50px' }}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
@@ -113,21 +113,25 @@ const MyPosts = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Grid sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                <Grid>
-                    <Typography>
-                        {itemPerPage >= 10 ? `Showing 0 to ${itemPerPage} of ${count}` : `Showing 0 to ${count} of ${count}`}
-                    </Typography>
-                </Grid>
-                <Grid sx={{ display: 'flex', justifyContent: 'end' }}>
-                    <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handlePrevPage}><ArrowBack></ArrowBack></Button>
-                    {
-                        pages.map(page => <Button onClick={() => setCurrentPage(page)} key={page}>{page}</Button>)
-                    }
-                    <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handleNextPage}><ArrowForward></ArrowForward></Button>
+            {!posts.length ?
+                "No Post Found"
+                :
+                <Grid sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Grid>
+                        <Typography>
+                            {itemPerPage == 10 ? `Showing 0 to ${count} of ${count}` : `Showing 0 to ${itemPerPage} of ${count}`}
+                        </Typography>
+                    </Grid>
+                    <Grid sx={{ display: 'flex', justifyContent: 'end' }}>
+                        <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handlePrevPage}><ArrowBack></ArrowBack></Button>
+                        {
+                            pages.map(page => <Button onClick={() => setCurrentPage(page)} key={page}>{page}</Button>)
+                        }
+                        <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handleNextPage}><ArrowForward></ArrowForward></Button>
 
+                    </Grid>
                 </Grid>
-            </Grid>
+            }
 
 
         </Grid>

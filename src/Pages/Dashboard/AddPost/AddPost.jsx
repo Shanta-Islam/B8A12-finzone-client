@@ -1,15 +1,24 @@
 import { useForm } from "react-hook-form";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthProvider";
 import { Box, Button, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
 
 
 const AddPost = () => {
+    const [tags, setTags] = useState([]);
+
     const axiosPublic = useAxiosPublic();
     const { user } = useContext(AuthContext);
     const { register, handleSubmit, reset } = useForm();
     const date = new Date().toDateString();
+    useEffect(() => {
+        axiosPublic.get('/tags')
+            .then(res => {
+                setTags(res.data)
+            })
+    }, [axiosPublic])
+    console.log(tags)
     const onSubmit = async (data) => {
         const postItems = {
             upVote: 0,
@@ -93,16 +102,16 @@ const AddPost = () => {
                         required
                     />
                     <Select
-                        label="Age"
+                        label="tag"
                         variant="outlined"
                         fullWidth
                         margin="normal"
                         {...register("tag")}
                         required
                     >
-                        <MenuItem value={10}>Ten</MenuItem>
-                        <MenuItem value={20}>Twenty</MenuItem>
-                        <MenuItem value={30}>Thirty</MenuItem>
+                        {
+                            tags?.map(tag => <MenuItem key={tag._id} value={tag.data.tag}>{tag.data.tag}</MenuItem>)
+                        }
                     </Select>
                     <Button
                         variant="contained"

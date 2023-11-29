@@ -49,6 +49,16 @@ const ManageUsers = () => {
             setCurrentPage(currentPage + 1);
         }
     }
+    const handleMakeAdmin = user => {
+        axiosSecure.patch(`/users/admin/${user._id}`)
+            .then(res => {
+                console.log(res.data)
+                if (res.data.modifiedCount > 0) {
+                    refetch();
+                    
+                }
+            })
+    }
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
             backgroundColor: theme.palette.common.white,
@@ -70,7 +80,7 @@ const ManageUsers = () => {
     }));
     return (
         <Grid>
-            <Typography variant="h4" sx={{textAlign:'center'}}>Manage Users</Typography>
+            <Typography variant="h4" sx={{ textAlign: 'center' }}>Manage Users</Typography>
             <TableContainer component='main' container sx={{ padding: '30px 50px' }}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
@@ -90,7 +100,7 @@ const ManageUsers = () => {
                                 </StyledTableCell>
                                 <StyledTableCell>{user?.name}</StyledTableCell>
                                 <StyledTableCell>{user?.email}</StyledTableCell>
-                                <StyledTableCell><Button variant='contained' sx={{ backgroundColor: '#06BD95' }}>Admin</Button></StyledTableCell>
+                                <StyledTableCell>{user.role==='admin' ? 'Admin': <Button variant='contained' sx={{ backgroundColor: '#06BD95' }} onClick={() => handleMakeAdmin(user)}>Admin</Button>}</StyledTableCell>
                                 <StyledTableCell>Membership</StyledTableCell>
                             </StyledTableRow>
                         ))}
