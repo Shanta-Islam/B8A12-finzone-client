@@ -7,7 +7,6 @@ import {
   import SignUp from "../Pages/SignUp/SignUp";
   import Dashboard from "../Layout/Dashboard";
   import Addpost from "../Pages/Dashboard/AddPost/AddPost";
-//   import PostDetails from "../Pages/PostDetails/PostDetails";
   import UserProfile from "../Pages/Dashboard/UserProfile/UserProfile";
   import MyPosts from "../Pages/Dashboard/MyPosts/MyPosts";
   import ManageUsers from "../Pages/Dashboard/ManageUsers/ManageUsers";
@@ -15,6 +14,8 @@ import {
 import PostDetails from "../Pages/PostDetails/PostDetails";
 import AdminProfile from "../Pages/Dashboard/AdminProfile/AdminProfile";
 import AdminRoute from "./AdminRoute";
+import AllComments from "../Pages/Dashboard/AllComments/AllComments";
+import Membership from "../Pages/Membership/Membership";
   
   
   
@@ -28,6 +29,10 @@ import AdminRoute from "./AdminRoute";
           element: <Home></Home>
         },
         {
+          path: '/membership',
+          element: <Membership></Membership>
+        },
+        {
           path: '/login',
           element: <Login></Login>
         },
@@ -38,7 +43,7 @@ import AdminRoute from "./AdminRoute";
         {
           path: '/post/:id',
           element: <PostDetails></PostDetails>,
-          loader: ({ params }) => fetch(`http://localhost:5000/post/${params.id}`)
+          loader: ({ params }) => fetch(`https://finzone-server.vercel.app/post/${params.id}`)
         }
   
       ]
@@ -59,6 +64,11 @@ import AdminRoute from "./AdminRoute";
         {
           path: 'myPost',
           element: <MyPosts></MyPosts>
+        },
+        {
+          path: 'postComments/:id',
+          element: <AllComments></AllComments>,
+          loader: ({params}) => fetch(`https://finzone-server.vercel.app/comment/${params.id}`)
         },
         
         // admin only routes

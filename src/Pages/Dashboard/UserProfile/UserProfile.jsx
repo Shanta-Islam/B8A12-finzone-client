@@ -1,9 +1,20 @@
 
-import { Avatar, Badge, Card, CardActions, CardContent, CardHeader, Divider, Grid, Typography } from "@mui/material";
+import { Avatar, Badge, Box, Card, CardActions, CardContent, CardHeader, Divider, Grid, Typography } from "@mui/material";
 import { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthProvider";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import { Link } from "react-router-dom";
+
+const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+}));
 
 const UserProfile = () => {
     const { user } = useContext(AuthContext);
@@ -50,31 +61,41 @@ const UserProfile = () => {
                     subheader={data?.email}
                 />
                 <Divider />
-                <CardContent >
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid container spacing={2}>
+                        {
+                            posts?.map(post => <Grid key={post._id} item xs={12} md={4}>
+                                <Item >
+                                    <Card sx={{ maxWidth: 345, margin: 'auto' }} item xs={6}>
 
-                    {posts.map(post => (
+                                        <Link to={`/post/${post._id}`} style={{ textDecoration: 'none' }}>
+                                            <CardHeader
+                                                avatar={
+                                                    <Avatar aria-label="recipe" src={post?.data.authorImg}>
 
-                        <Card key={post._id} sx={{ maxWidth: 345, margin: '10px' }} item xs={6}>
-                            <CardHeader
-                                avatar={
-                                    <Avatar aria-label="authorimg" src={post?.data?.authorImg}>
+                                                    </Avatar>
+                                                }
+                                                title={post.data.authorName}
+                                                subheader={post.date}
+                                            />
+                                            <Typography color="text.secondary" sx={{ margin: '10px' }}>
+                                                Post Title: {post.data.postTitle}
+                                            </Typography>
+                                            <CardContent>
+                                                <Typography variant="body2" color="text.secondary">
+                                                    {post.data.postDesc.slice(0, 100)}...
+                                                </Typography>
+                                            </CardContent>
+                                            </Link>
 
-                                    </Avatar>
-                                }
-                                title={post?.data?.authorName}
-                                subheader={post?.data?.postTitle}
-                            />
-                            <CardContent>
-                                <Typography variant="body2" color="text.secondary">
-                                    {post?.data?.postDesc.slice(0, 100)}...
-                                </Typography>
-                            </CardContent>
-                        </Card>
-
-                    ))}
+                                    </Card>
+                                </Item>
+                            </Grid>)
+                        }
 
 
-                </CardContent>
+                    </Grid>
+                </Box>
                 <CardActions disableSpacing>
                     {/* <IconButton aria-label="add to favorites">
                         <FavoriteIcon />

@@ -20,7 +20,8 @@ const PostDetails = () => {
         
         const items = {
             email: user?.email,
-            data
+            data, 
+            postId: singlePost._id
 
         }
         
@@ -32,13 +33,15 @@ const PostDetails = () => {
     }
     // console.log(singlePost)
     const handleLike = (id) => {
-        axiosSecure.post(`/${id}/like/${user?.email}`)
+    
+        axiosSecure.patch(`/${id}/like`)
             .then(res => {
-                // console.log(res.data)
+                console.log(res.data)
                 if (res.data.modifiedCount > 0) {
                     // refetch();
                 }
             })
+        // console.log(id)
     }
     const handleDisLike = (id) => {
         axiosSecure.post(`/${id}/dislike/${user?.email}`)

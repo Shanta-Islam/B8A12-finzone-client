@@ -138,10 +138,11 @@ const Navbar = () => {
                             component="div"
                             sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', }}
                         >
-                            <img src={Logo} alt="logo" />
+                            <img src={Logo} alt="logo"/>
                             <Typography variant="h4" component="div" sx={{ flexGrow: 1, fontWeight: '600' }}>
                                 FinZone
                             </Typography>
+
                         </Typography>
                         <Box sx={{ display: { xs: "none", sm: "block" } }}>
                             <ul className="navigation-menu">

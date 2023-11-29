@@ -33,7 +33,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
-export default function CustomizedTables() {
+export default function Announcement() {
     const axiosPublic = useAxiosPublic();
     const [currentPage, setCurrentPage] = useState(0);
     const [count, setCount] = useState(0);
@@ -59,7 +59,7 @@ export default function CustomizedTables() {
         }
     })
     useEffect(() => {
-        fetch('http://localhost:5000/announcementsCount')
+        fetch('https://finzone-server.vercel.app/announcementsCount')
             .then(res => res.json())
             .then(data => {
                 setCount(data.count)
@@ -77,7 +77,7 @@ export default function CustomizedTables() {
         }
     }
     return (
-        <Grid component='main' container sx={{ padding: '30px 50px' }}>
+        <Grid sx={{ padding: '30px 50px' }}>
             {
                 announcement.length ?
                     <Grid>
@@ -114,7 +114,7 @@ export default function CustomizedTables() {
                                     ))}
                                 </TableBody>
                             </Table>
-                        </TableContainer>
+                        </TableContainer> 
                         <Grid sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Grid>
                                 <Typography>

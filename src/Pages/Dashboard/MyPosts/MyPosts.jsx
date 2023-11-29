@@ -11,6 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import { Button, Grid, Typography } from "@mui/material";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -63,7 +64,7 @@ const MyPosts = () => {
     }
 
     useEffect(() => {
-        fetch(`http://localhost:5000/postsCount/${user?.email}`)
+        fetch(`https://finzone-server.vercel.app/postsCount/${user?.email}`)
             .then(res => res.json())
             .then(data => {
                 setCount(data.count)
@@ -107,12 +108,16 @@ const MyPosts = () => {
                                 </StyledTableCell>
                                 <StyledTableCell>{post?.data?.postTitle}</StyledTableCell>
                                 <StyledTableCell>3</StyledTableCell>
-                                <StyledTableCell><Button variant='contained' sx={{ backgroundColor: '#06BD95' }}>Comment</Button><Button variant='contained' sx={{ backgroundColor: 'red', marginLeft: '10px' }} onClick={() => handleDelete(post._id)}>Delete</Button></StyledTableCell>
+                                <StyledTableCell>
+                                    <Link to={`/dashboard/postComments/${post._id}`} style={{textDecoration: 'none'}}>
+                                        <Button variant='contained' sx={{ backgroundColor: '#06BD95' }}>Comment</Button>
+                                    </Link>
+                                    <Button variant='contained' sx={{ backgroundColor: 'red', marginLeft: '10px' }} onClick={() => handleDelete(post._id)}>Delete</Button></StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
                 </Table>
-            </TableContainer>
+            </TableContainer> 
             {!posts.length ?
                 "No Post Found"
                 :

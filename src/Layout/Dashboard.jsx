@@ -29,7 +29,7 @@ function Dashboard(props) {
         setMobileOpen(!mobileOpen);
     };
     // const [isAdmin] = useAdmin();
-    const isAdmin = false;
+    const isAdmin = true;
     const drawer = (
         <div>
             <Toolbar />
