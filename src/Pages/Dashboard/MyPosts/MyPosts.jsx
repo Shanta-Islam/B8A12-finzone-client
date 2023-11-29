@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthProvider";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -9,8 +9,10 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Button, CircularProgress } from "@mui/material";
+import { Button, CircularProgress, Grid, MenuItem, Pagination, PaginationItem, Select, Typography } from "@mui/material";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
+import { Link } from "react-router-dom";
+import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -36,10 +38,18 @@ const MyPosts = () => {
     const { user } = useContext(AuthContext);
     // const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
+    const [currentPage, setCurrentPage] = useState(0);
+    const [count, setCount] = useState(0);
+    const [itemPerPage, SetItemPerPage] = useState(10);
+    const numsOfPage = Math.ceil(count / itemPerPage);
+    const pages = [];
+    for (let i = 0; i < numsOfPage; i++) {
+        pages.push(i);
+    }
     const { data: posts = [], refetch } = useQuery({
         queryKey: ['posts'],
         queryFn: async () => {
-            const res = await axiosSecure.get(`/posts/${user?.email}`)
+            const res = await axiosSecure.get(`/posts/${user?.email}?page=${currentPage}&size=${itemPerPage}`)
             return res.data
         }
 
@@ -54,32 +64,74 @@ const MyPosts = () => {
             })
     }
 
-    // console.log(posts)
+    useEffect(() => {
+        fetch('http://localhost:5000/postsCount')
+            .then(res => res.json())
+            .then(data => {
+                setCount(data.count)
+                refetch()
+            })
+    }, [refetch])
+    // const handleItemPerPage = e => {
+    //     const val = parseInt(e.target.value);
+    //     SetItemPerPage(val);
+    //     setCurrentPage(0);
+    // }
+    const handlePrevPage = () => {
+        if (currentPage > 0) {
+            setCurrentPage(currentPage - 1);
+        }
+    }
+    const handleNextPage = () => {
+        if (currentPage < pages.length - 1) {
+            setCurrentPage(currentPage + 1);
+        }
+    }
+    console.log(count)
     return (
-        <TableContainer component='main' container sx={{ padding: '30px 50px' }}>
-            <Table sx={{ minWidth: 700 }} aria-label="customized table">
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell></StyledTableCell>
-                        <StyledTableCell>Post Title</StyledTableCell>
-                        <StyledTableCell>Number of votes</StyledTableCell>
-                        <StyledTableCell>Actions</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {posts.map((post, index) => (
-                        <StyledTableRow key={post._id}>
-                            <StyledTableCell component="th" scope="row">
-                                {index + 1}
-                            </StyledTableCell>
-                            <StyledTableCell>{post?.data?.postTitle}</StyledTableCell>
-                            <StyledTableCell>3</StyledTableCell>
-                            <StyledTableCell><Button variant='contained'>Comment</Button><Button variant='contained' sx={{ backgroundColor: 'red', marginLeft: '10px' }} onClick={() => handleDelete(post._id)}>Delete</Button></StyledTableCell>
-                        </StyledTableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <Grid>
+            <TableContainer component='main' container sx={{ padding: '30px 50px' }}>
+                <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell></StyledTableCell>
+                            <StyledTableCell>Post Title</StyledTableCell>
+                            <StyledTableCell>Number of votes</StyledTableCell>
+                            <StyledTableCell>Actions</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {posts.map((post, index) => (
+                            <StyledTableRow key={post._id}>
+                                <StyledTableCell component="th" scope="row">
+                                    {index + 1}
+                                </StyledTableCell>
+                                <StyledTableCell>{post?.data?.postTitle}</StyledTableCell>
+                                <StyledTableCell>3</StyledTableCell>
+                                <StyledTableCell><Button variant='contained' sx={{backgroundColor:'#06BD95'}}>Comment</Button><Button variant='contained' sx={{ backgroundColor: 'red', marginLeft: '10px' }} onClick={() => handleDelete(post._id)}>Delete</Button></StyledTableCell>
+                            </StyledTableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Grid sx={{display:'flex', justifyContent: 'space-between'}}>
+                <Grid>
+                    <Typography sx={{display:'flex', gap:'5px'}}>
+                        Showing 1 to <Typography>{itemPerPage}</Typography>of <Typography>{count}</Typography> 
+                    </Typography>
+                </Grid>
+                <Grid sx={{ display: 'flex', justifyContent: 'end' }}>
+                    <Button variant="contained" sx={{backgroundColor:'#06BD95'}} onClick={handlePrevPage}><ArrowBack></ArrowBack></Button>
+                    {
+                        pages.map(page => <Button  onClick={() => setCurrentPage(page)} key={page}>{page}</Button>)
+                    }
+                    <Button variant="contained" sx={{backgroundColor:'#06BD95'}} onClick={handleNextPage}><ArrowForward></ArrowForward></Button>
+
+                </Grid>
+            </Grid>
+
+
+        </Grid>
     );
 };
 
