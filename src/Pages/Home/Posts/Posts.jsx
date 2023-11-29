@@ -29,7 +29,7 @@ export default function Announcement() {
 
   });
   const handleLike = (id) => {
-    axiosSecure.post(`/${id}/like/${user?.email}` )
+    axiosSecure.post(`/${id}/like/${user?.email}`)
       .then(res => {
         console.log(res.data)
         if (res.data.modifiedCount > 0) {
@@ -38,7 +38,7 @@ export default function Announcement() {
       })
   }
   const handleDisLike = (id) => {
-    axiosSecure.post(`/${id}/dislike/${user?.email}` )
+    axiosSecure.post(`/${id}/dislike/${user?.email}`)
       .then(res => {
         console.log(res.data)
         if (res.data.modifiedCount > 0) {
@@ -46,6 +46,7 @@ export default function Announcement() {
         }
       })
   }
+  console.log(posts);
   return (
     <Grid component='main' container sx={{ padding: '30px 50px', gap: '15px', margin: 'auto' }} rowSpacing={1} columnSpacing={{ xs: 1, sm: 3, md: 3 }}>
       {
@@ -53,24 +54,19 @@ export default function Announcement() {
           <Card key={post._id} sx={{ maxWidth: 345, margin: 'auto' }} item xs={6}>
             <CardHeader
               avatar={
-                <Avatar aria-label="recipe">
-                  R
+                <Avatar aria-label="recipe" src={post.data.authorImg}>
+
                 </Avatar>
               }
-              title="Shrimp and Chorizo Paella"
-              subheader="September 14, 2016"
+              title={post.data.authorName}
+              subheader={post.date}
             />
-            <CardMedia
-              component="img"
-              height="194"
-              image="/static/images/cards/paella.jpg"
-              alt="Paella dish"
-            />
+            <Typography color="text.secondary" sx={{margin:'10px'}}>
+              Post Title: {post.data.postTitle}
+            </Typography>
             <CardContent>
               <Typography variant="body2" color="text.secondary">
-                This impressive paella is a perfect party dish and a fun meal to cook
-                together with your guests. Add 1 cup of frozen peas along with the mussels,
-                if you like.
+                {post.data.postDesc.slice(0,100)}...
               </Typography>
             </CardContent>
             <CardActions disableSpacing>

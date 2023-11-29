@@ -87,7 +87,7 @@ const MyPosts = () => {
             setCurrentPage(currentPage + 1);
         }
     }
-    console.log(count)
+    // console.log(count)
     return (
         <Grid>
             <TableContainer component='main' container sx={{ padding: '30px 50px' }}>
@@ -108,24 +108,24 @@ const MyPosts = () => {
                                 </StyledTableCell>
                                 <StyledTableCell>{post?.data?.postTitle}</StyledTableCell>
                                 <StyledTableCell>3</StyledTableCell>
-                                <StyledTableCell><Button variant='contained' sx={{backgroundColor:'#06BD95'}}>Comment</Button><Button variant='contained' sx={{ backgroundColor: 'red', marginLeft: '10px' }} onClick={() => handleDelete(post._id)}>Delete</Button></StyledTableCell>
+                                <StyledTableCell><Button variant='contained' sx={{ backgroundColor: '#06BD95' }}>Comment</Button><Button variant='contained' sx={{ backgroundColor: 'red', marginLeft: '10px' }} onClick={() => handleDelete(post._id)}>Delete</Button></StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Grid sx={{display:'flex', justifyContent: 'space-between'}}>
+            <Grid sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Grid>
-                    <Typography sx={{display:'flex', gap:'5px'}}>
-                        Showing 1 to <Typography>{itemPerPage}</Typography>of <Typography>{count}</Typography> 
+                    <Typography>
+                        {itemPerPage> 10 ? `Showing 0 to ${itemPerPage} of ${count}` : `Showing 0 to ${count} of ${count}`}
                     </Typography>
                 </Grid>
                 <Grid sx={{ display: 'flex', justifyContent: 'end' }}>
-                    <Button variant="contained" sx={{backgroundColor:'#06BD95'}} onClick={handlePrevPage}><ArrowBack></ArrowBack></Button>
+                    <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handlePrevPage}><ArrowBack></ArrowBack></Button>
                     {
-                        pages.map(page => <Button  onClick={() => setCurrentPage(page)} key={page}>{page}</Button>)
+                        pages.map(page => <Button onClick={() => setCurrentPage(page)} key={page}>{page}</Button>)
                     }
-                    <Button variant="contained" sx={{backgroundColor:'#06BD95'}} onClick={handleNextPage}><ArrowForward></ArrowForward></Button>
+                    <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handleNextPage}><ArrowForward></ArrowForward></Button>
 
                 </Grid>
             </Grid>
