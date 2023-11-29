@@ -27,7 +27,7 @@ function Dashboard(props) {
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
-    const isAdmin = false;
+    const isAdmin = true;
     const drawer = (
         <div>
             <Toolbar />

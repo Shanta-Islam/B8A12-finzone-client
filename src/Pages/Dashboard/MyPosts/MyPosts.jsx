@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthProvider";
 import { styled } from '@mui/material/styles';
@@ -9,9 +8,8 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Button, CircularProgress, Grid, MenuItem, Pagination, PaginationItem, Select, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import { Link } from "react-router-dom";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 
 
@@ -90,6 +88,7 @@ const MyPosts = () => {
     // console.log(count)
     return (
         <Grid>
+            <Typography variant="h4" sx={{textAlign:'center'}}>My Posts</Typography>
             <TableContainer component='main' container sx={{ padding: '30px 50px' }}>
                 <Table sx={{ minWidth: 700 }} aria-label="customized table">
                     <TableHead>
@@ -117,7 +116,7 @@ const MyPosts = () => {
             <Grid sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Grid>
                     <Typography>
-                        {itemPerPage> 10 ? `Showing 0 to ${itemPerPage} of ${count}` : `Showing 0 to ${count} of ${count}`}
+                        {itemPerPage >= 10 ? `Showing 0 to ${itemPerPage} of ${count}` : `Showing 0 to ${count} of ${count}`}
                     </Typography>
                 </Grid>
                 <Grid sx={{ display: 'flex', justifyContent: 'end' }}>
