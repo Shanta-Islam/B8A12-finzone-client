@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 const ManageUsers = () => {
     const axiosSecure = useAxiosSecure();
     const [currentPage, setCurrentPage] = useState(0);
+    const [memebership, setMembership]=useState('');
     const [count, setCount] = useState(0);
     const [itemPerPage, SetItemPerPage] = useState(10);
     const numsOfPage = Math.ceil(count / itemPerPage);
@@ -101,7 +102,7 @@ const ManageUsers = () => {
                                 <StyledTableCell>{user?.name}</StyledTableCell>
                                 <StyledTableCell>{user?.email}</StyledTableCell>
                                 <StyledTableCell>{user.role==='admin' ? 'Admin': <Button variant='contained' sx={{ backgroundColor: '#06BD95' }} onClick={() => handleMakeAdmin(user)}>Admin</Button>}</StyledTableCell>
-                                <StyledTableCell>Membership</StyledTableCell>
+                                <StyledTableCell>{memebership? 'Membership': ''}</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>

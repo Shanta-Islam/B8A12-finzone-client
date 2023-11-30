@@ -16,8 +16,13 @@
   justify-content: center;
   align-items: center;
 }
-
-.header .headerContainer input {
+.header .headerContainer form{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.header .headerContainer form input {
   width: 50%;
   border: none;
   height: 50px;
@@ -32,7 +37,7 @@
   color: white;
 }
 
-.headerContainer button {
+.headerContainer form button {
   background-color: #06BD95;
   margin-top: 20px;
   border: none;
@@ -44,7 +49,7 @@
   font-size: 20px;
 }
 
-.headerContainer button:hover {
+.headerContainer form button:hover {
   background-color: #07090a;
   cursor: pointer;
   transition: 0.3s ease-in;
@@ -74,7 +79,7 @@
     color: white;
   }
 
-  .headerContainer button {
+  .headerContainer form button {
     background-color: #06BD95;
     color: #fff;
     margin-bottom: 30px;

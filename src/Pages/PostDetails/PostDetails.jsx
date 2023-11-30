@@ -36,7 +36,7 @@ const PostDetails = () => {
     
         axiosSecure.patch(`/${id}/like`)
             .then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 if (res.data.modifiedCount > 0) {
                     // refetch();
                 }
@@ -44,7 +44,7 @@ const PostDetails = () => {
         // console.log(id)
     }
     const handleDisLike = (id) => {
-        axiosSecure.post(`/${id}/dislike/${user?.email}`)
+        axiosSecure.patch(`/${id}/dislike`)
             .then(res => {
                 // console.log(res.data)
                 if (res.data.modifiedCount > 0) {

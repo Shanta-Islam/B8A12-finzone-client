@@ -27,13 +27,20 @@ const AllPosts = () => {
     const [count, setCount] = useState(0);
     const [itemPerPage, SetItemPerPage] = useState(5);
     const numsOfPage = Math.ceil(count / itemPerPage);
+    const [votes, setVotes] = useState([]);
     const pages = [];
     for (let i = 0; i < numsOfPage; i++) {
         pages.push(i);
     }
-    const posts = usePosts(currentPage,itemPerPage);
-    
-    
+    const posts = usePosts(currentPage, itemPerPage);
+
+    useEffect(() => {
+        fetch(`http://localhost:5000/votes`)
+            .then(res => res.json())
+            .then(data => {
+                setVotes(data)
+            })
+    }, [])
     useEffect(() => {
         fetch(`http://localhost:5000/postsCount`)
             .then(res => res.json())
@@ -51,7 +58,7 @@ const AllPosts = () => {
             setCurrentPage(currentPage + 1);
         }
     }
-    // console.log(posts);
+    // console.log(votes);
     return (
         <Grid sx={{ padding: '30px 50px', margin: 'auto' }}>
             <Button variant='contained' sx={{ margin: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#06BD95' }} onClick={() => setAsc(!asc)}>Sort By Popularity</Button>
@@ -73,6 +80,9 @@ const AllPosts = () => {
                                             subheader={post.date}
                                         />
                                         <Typography color="text.secondary" sx={{ margin: '10px' }}>
+                                            Tags: {post.data.tag}
+                                        </Typography>
+                                        <Typography color="text.secondary" sx={{ margin: '10px' }}>
                                             Post Title: {post.data.postTitle}
                                         </Typography>
                                         <CardContent>
@@ -80,20 +90,16 @@ const AllPosts = () => {
                                                 {post.data.postDesc.slice(0, 100)}...
                                             </Typography>
                                         </CardContent>
-                                        <CardActions disableSpacing>
+                                        <CardActions disableSpacing sx={{ pointerEvents: 'none' }}>
                                             <IconButton aria-label="add to like" sx={{ border: '1px solid gray', borderRadius: '0', padding: '1px 20px' }}>
                                                 <ThumbUpAlt></ThumbUpAlt>
                                                 <Divider orientation="vertical" flexItem />
-                                                <Typography sx={{ margin: '0px 6px' }}>{post.upVote}</Typography>
+                                                {/* <Typography sx={{ margin: '0px 6px' }}>{v.voteDifference}</Typography> */}
                                             </IconButton>
                                             <IconButton aria-label="share">
                                                 <CommentRounded />
                                             </IconButton>
-                                            <IconButton aria-label="add to like" sx={{ border: '1px solid gray', borderRadius: '0', padding: '1px 20px' }}>
-                                                <ThumbDownAlt></ThumbDownAlt>
-                                                <Divider orientation="vertical" flexItem />
-                                                <Typography sx={{ margin: '0px 6px' }}>{post.downVote}</Typography>
-                                            </IconButton>
+
                                         </CardActions></Link>
 
                                 </Card>

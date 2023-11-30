@@ -80,7 +80,7 @@ const SinglePostComments = () => {
     // console.log(report)
     
     const [open, setOpen] = useState(false);
-    const handleOpen = () => {
+    const handleOpen = (comment) => {
         
         setOpen(true)
         
@@ -97,10 +97,7 @@ const SinglePostComments = () => {
         axiosSecure.post(`/reports`, item)
             .then(res => {
                 console.log(res.data)
-                // if (res.data.insertedId) {
-                    
-                    
-                // }
+                
             })
     }
 
@@ -126,7 +123,7 @@ const SinglePostComments = () => {
                                 </StyledTableCell>
                                 <StyledTableCell>{comment?.email}</StyledTableCell>
                                 <StyledTableCell>{comment?.data.comment.length > 20 ? (
-                                    <Typography>{comment?.data.comment.slice(0, 20)}<Button onClick={()=>handleOpen(comment._id)}>...read more</Button></Typography>
+                                    <Typography>{comment?.data.comment.slice(0, 20)}<Button onClick={()=>handleOpen(comment)}>...read more</Button></Typography>
                                 ) : (
 
                                     <Typography>{comment?.data.comment}</Typography>
@@ -187,14 +184,13 @@ const SinglePostComments = () => {
             <Modal
                 open={open}
                 onClose={handleClose}
+               
                 // comment={comment}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    {/* {
-                        comment?.map(a=>console.log(a.data.comment))
-                    } */}
+                    {/* <p>{comment?.data.comment}</p> */}
                    
                 </Box>
             </Modal>

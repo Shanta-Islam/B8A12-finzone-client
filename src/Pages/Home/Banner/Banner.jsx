@@ -1,29 +1,26 @@
 
-import { useQuery } from "@tanstack/react-query";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import "../../../styles/HomeStyles.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+// import usePosts from "../../../Hooks/usePosts";
 
 const Banner = () => {
-    const axiosPublic = useAxiosPublic();
     const [search, setSearch] = useState('');
-    const handleSearch = (event)=>{
-        event.preventDefault();
-        const searchText = event.target.value;
+    const handleSearch = (e) => {
+        e.preventDefault();
+        const searchText = e.target.search.value;
+        console.log(searchText)
         setSearch(searchText)
-        
+
     }
-    useEffect(()=>{
-        axiosPublic.get(`/post?search=${search}`)
-        .then(res=>{
-            console.log(res.data)
-        })
-    },[axiosPublic, search])
+    console.log(search)
+    // const posts = usePosts(search);
     return (
         <div className="header" style={{ backgroundImage: `url(https://i.ibb.co/zPmFm5k/hero-img.jpg)` }}>
             <div className="headerContainer">
-                <input type="text" placeholder="Search here...." onChange={handleSearch}/>
-                <button className="" onClick={handleSearch}>Search</button>
+                <form onSubmit={handleSearch}>
+                    <input type="text" name='search' placeholder="Search here...." />
+                    <button type='submit'>Search</button>
+                </form>
             </div>
         </div>
 
