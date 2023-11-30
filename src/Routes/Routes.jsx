@@ -17,6 +17,7 @@ import AdminRoute from "./AdminRoute";
 import Membership from "../Pages/Membership/Membership";
 import SinglePostComments from "../Pages/Dashboard/SinglePostComments/SinglePostComments";
 import ReportedComments from "../Pages/Dashboard/ReportedComments/ReportedComments";
+import PrivateRoute from "./PrivateRoute";
 
 
 
@@ -31,7 +32,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/membership',
-        element: <Membership></Membership>
+        element: <PrivateRoute><Membership></Membership></PrivateRoute>
       },
       {
         path: '/login',
@@ -56,19 +57,19 @@ export const router = createBrowserRouter([
       // normal user routes
       {
         path: 'userProfile',
-        element: <UserProfile></UserProfile>
+        element: <PrivateRoute><UserProfile></UserProfile></PrivateRoute>
       },
       {
         path: 'addPost',
-        element: <Addpost></Addpost>
+        element: <PrivateRoute><Addpost></Addpost></PrivateRoute>
       },
       {
         path: 'myPost',
-        element: <MyPosts></MyPosts>
+        element: <PrivateRoute><MyPosts></MyPosts></PrivateRoute>
       },
       {
         path: 'postComments/:id',
-        element: <SinglePostComments></SinglePostComments>
+        element: <PrivateRoute><SinglePostComments></SinglePostComments></PrivateRoute>
       },
 
       // admin only routes

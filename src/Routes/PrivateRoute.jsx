@@ -5,7 +5,7 @@ import { Box, CircularProgress } from "@mui/material";
 
 const PrivateRoute = ({ children }) => {
     const { user, loading } = useContext(AuthContext);
-    const location = useLocation();
+    const location = useLocation(); 
 
     if(loading){
         return <Box sx={{ display: 'flex' }}>
