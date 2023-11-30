@@ -60,7 +60,7 @@ const SinglePostComments = () => {
 
     // console.log(count)
     useEffect(() => {
-        fetch(`http://localhost:5000/commentsCount/${id}`)
+        fetch(`https://finzone-server.vercel.app/commentsCount/${id}`)
             .then(res => res.json())
             .then(data => {
                 setCount(data.count)

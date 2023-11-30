@@ -5,7 +5,7 @@ import { AuthContext } from "../Context/AuthProvider";
 
  
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'https://finzone-server.vercel.app'
 })
 const useAxiosSecure = () => {
     const navigate = useNavigate();

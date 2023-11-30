@@ -6,7 +6,7 @@
 //     const axiosSecure = useAxiosSecure();
 //     const [comment, setComment] =useState([]);
 //     useEffect(()=>{
-//         axiosSecure(`http://localhost:5000/comment/${id}`)
+//         axiosSecure(`https://finzone-server.vercel.app/comment/${id}`)
 //         .then(res=> setComment(res.data))
 //     },[axiosSecure, id,])
 //     return [comment,setComment];

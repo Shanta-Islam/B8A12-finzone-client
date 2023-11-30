@@ -59,7 +59,7 @@ export default function Announcement() {
         }
     })
     useEffect(() => {
-        fetch('http://localhost:5000/announcementsCount')
+        fetch('https://finzone-server.vercel.app/announcementsCount')
             .then(res => res.json())
             .then(data => {
                 setCount(data.count)

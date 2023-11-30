@@ -35,14 +35,14 @@ const AllPosts = () => {
     const posts = usePosts(currentPage, itemPerPage);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/votes`)
+        fetch(`https://finzone-server.vercel.app/votes`)
             .then(res => res.json())
             .then(data => {
                 setVotes(data)
             })
     }, [])
     useEffect(() => {
-        fetch(`http://localhost:5000/postsCount`)
+        fetch(`https://finzone-server.vercel.app/postsCount`)
             .then(res => res.json())
             .then(data => {
                 setCount(data.count)
