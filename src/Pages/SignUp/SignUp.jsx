@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/AuthProvider";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { GoogleAuthProvider } from "firebase/auth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import bronzeBadge from "../../assets/bronze.png";
@@ -63,7 +63,11 @@ const SignUp = () => {
                     .then(res => {
                         console.log(res.data)
                         if (res.data.insertedId) {
-                            console.log('user added')
+                            // console.log('user added')
+                            toast.success('Successfully Sign In')
+                            navigate(location?.state ? location.state : '/');
+                        }
+                        else {
                             toast.success('Successfully Sign In')
                             navigate(location?.state ? location.state : '/');
                         }
@@ -89,7 +93,6 @@ const SignUp = () => {
                         backgroundPosition: 'center',
                     }}
                 />
-
                 <Grid item xs={12} sm={8} md={7} elevation={6} square>
                     <Box
                         sx={{
@@ -168,9 +171,9 @@ const SignUp = () => {
                                 SignUp
                             </Button>
                         </form>
-                        <Typography varient='h4' sx={{ textAlign: 'center' , margin: '10px' }}>Already have an account <Link to="/login">Login</Link></Typography>
+                        <Typography varient='h4' sx={{ textAlign: 'center', margin: '10px' }}>Already have an account <Link to="/login">Login</Link></Typography>
                         <Grid>
-                            <Button onClick={handleGoogleSignIn}  variant="contained"
+                            <Button onClick={handleGoogleSignIn} variant="contained"
                                 color="primary"
                                 type="submit"
                                 fullWidth>
@@ -178,11 +181,29 @@ const SignUp = () => {
                                 <span>Register with Google</span>
                             </Button>
                         </Grid>
+
                     </Box>
+
                 </Grid>
             </Grid>
+
         </>
     );
 };
 
 export default SignUp;
+
+// import toast, { Toaster } from 'react-hot-toast';
+
+// const notify = () => toast.success('Here is your toast.');
+
+// const SignUp = () => {
+//     return (
+//         <div>
+//             <button onClick={notify}>Make me a toast</button>
+//             <Toaster />
+//         </div>
+//     );
+// };
+
+// export default SignUp;

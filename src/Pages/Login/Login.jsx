@@ -7,6 +7,7 @@ import { GoogleAuthProvider } from "firebase/auth";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
 import bronzeBadge from "../../assets/bronze.png";
 import GoogleIcon from '@mui/icons-material/Google';
+import toast, { Toaster } from "react-hot-toast";
 
 const Login = () => {
     const axiosPublic = useAxiosPublic();
@@ -45,11 +46,15 @@ const Login = () => {
                         console.log(res.data)
                         if (res.data.insertedId) {
                             console.log('user added')
-                            // toast.success('Successfully Sign In')
+                            toast.success('Successfully Sign In')
                             navigate(location?.state ? location.state : '/');
-                            
+
                         }
-                })
+                        else {
+                            toast.success('Successfully Sign In')
+                            navigate(location?.state ? location.state : '/');
+                        }
+                    })
 
             })
             .catch(error => console.log(error));
@@ -133,7 +138,9 @@ const Login = () => {
                         </Button>
                     </Grid>
                 </Box>
+                <Toaster />
             </Grid>
+            
         </Grid>
     );
 };
