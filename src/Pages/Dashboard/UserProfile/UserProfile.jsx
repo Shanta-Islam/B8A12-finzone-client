@@ -1,12 +1,13 @@
 
 import { Avatar, Badge, Box, Card, CardActions, CardContent, CardHeader, Divider, Grid, Typography } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthProvider";
 import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import { Link } from "react-router-dom";
+import goldBadge from '../../../assets/gold.png';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -17,6 +18,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const UserProfile = () => {
+    const [users, setUsers] =useState([]);
     const { user } = useContext(AuthContext);
     const axiosPublic = useAxiosPublic();
     const { data } = useQuery({
@@ -39,7 +41,13 @@ const UserProfile = () => {
 
         }
     })
-    console.log(posts)
+    useEffect(() => {
+        axiosPublic.get(`/user/${user?.email}`)
+            .then(res => {
+                setUsers(res.data)
+            })
+    }, [axiosPublic, user?.email])
+    
     return (
         <Grid>
             <Card sx={{ margin: 'auto' }} item xs={6}>
@@ -50,7 +58,7 @@ const UserProfile = () => {
                             overlap="circular"
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                             badgeContent={
-                                <Avatar alt="Travis Howard" src={data?.badge} sx={{ width: '30px', height: '30px' }} />
+                                <Avatar alt="Travis Howard" src={users.status? `${goldBadge}`: `${data?.badge}`} sx={{ width: '30px', height: '30px' }} />
 
                             }
                         >

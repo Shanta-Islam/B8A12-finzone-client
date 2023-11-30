@@ -23,6 +23,7 @@ const CheckoutForm = ({ clientSecret }) => {
     }, [stripe, clientSecret]);
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
         const res = await axiosSecure.patch(`/payments/${user?.email}`);
                 console.log('payment saved', res.data);
         
