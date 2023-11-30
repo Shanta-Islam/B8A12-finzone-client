@@ -16,6 +16,7 @@ import AdminProfile from "../Pages/Dashboard/AdminProfile/AdminProfile";
 import AdminRoute from "./AdminRoute";
 import Membership from "../Pages/Membership/Membership";
 import SinglePostComments from "../Pages/Dashboard/SinglePostComments/SinglePostComments";
+import ReportedComments from "../Pages/Dashboard/ReportedComments/ReportedComments";
 
 
 
@@ -82,6 +83,10 @@ export const router = createBrowserRouter([
       {
         path: 'createAnnouncement',
         element: <AdminRoute><CreateAnnouncement></CreateAnnouncement></AdminRoute>
+      },
+      {
+        path: 'report',
+        element: <AdminRoute><ReportedComments></ReportedComments></AdminRoute>
       },
 
 

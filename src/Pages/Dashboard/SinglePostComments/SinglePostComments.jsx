@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import useAxiosPublic from "../../../Hooks/useAxiosPublic";
-import { Link, useLoaderData, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import useSinglePostComment from "../../../Hooks/useSinglePostComment";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
@@ -9,10 +8,9 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Button, Grid, MenuItem, Select, Typography } from "@mui/material";
+import { Box, Button, Grid, MenuItem, Modal, Select, Typography } from "@mui/material";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
-import useUserPosts from "../../../Hooks/useUserPosts";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -34,8 +32,22 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     },
 }));
 
+const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+
 const SinglePostComments = () => {
-    const {id} = useParams();
+    const axiosSecure = useAxiosSecure();
+    const { id } = useParams();
+    const [report, setReport] = useState('');
     const [currentPage, setCurrentPage] = useState(0);
     const [count, setCount] = useState(0);
     const [itemPerPage, SetItemPerPage] = useState(10);
@@ -44,8 +56,9 @@ const SinglePostComments = () => {
     for (let i = 0; i < numsOfPage; i++) {
         pages.push(i);
     }
-    const comments = useSinglePostComment(id, currentPage, itemPerPage);
-    console.log(count)
+    const [comments] = useSinglePostComment(id, currentPage, itemPerPage);
+
+    // console.log(count)
     useEffect(() => {
         fetch(`http://localhost:5000/commentsCount/${id}`)
             .then(res => res.json())
@@ -53,7 +66,7 @@ const SinglePostComments = () => {
                 setCount(data.count)
 
             })
-    }, [])
+    }, [id])
     const handlePrevPage = () => {
         if (currentPage > 0) {
             setCurrentPage(currentPage - 1);
@@ -64,6 +77,33 @@ const SinglePostComments = () => {
             setCurrentPage(currentPage + 1);
         }
     }
+    // console.log(report)
+    
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+        
+        setOpen(true)
+        
+    };
+    const handleClose = () => setOpen(false);
+    // console.log(comment);
+
+
+    const handleSetReport=(comment)=>{
+        const item={
+            comment,
+            report
+        }
+        axiosSecure.post(`/reports`, item)
+            .then(res => {
+                console.log(res.data)
+                // if (res.data.insertedId) {
+                    
+                    
+                // }
+            })
+    }
+
     return (
         <Grid>
             <Typography variant="h4" sx={{ textAlign: 'center' }}>All Comments</Typography>
@@ -85,28 +125,39 @@ const SinglePostComments = () => {
                                     {index + 1}
                                 </StyledTableCell>
                                 <StyledTableCell>{comment?.email}</StyledTableCell>
-                                <StyledTableCell>{comment?.data.comment}</StyledTableCell>
+                                <StyledTableCell>{comment?.data.comment.length > 20 ? (
+                                    <Typography>{comment?.data.comment.slice(0, 20)}<Button onClick={()=>handleOpen(comment._id)}>...read more</Button></Typography>
+                                ) : (
+
+                                    <Typography>{comment?.data.comment}</Typography>
+                                )}</StyledTableCell>
                                 <StyledTableCell>
                                     <Select
                                         label="tag"
                                         variant="outlined"
                                         fullWidth
                                         margin="normal"
+                                        onChange={(e) => setReport(e.target.value)}
                                     >
                                         {/* {
                                             tags?.map(tag => )
                                         } */}
-                                        <MenuItem value="20%">20%</MenuItem>
-                                        <MenuItem value="50%">50%</MenuItem>
-                                        <MenuItem value="80%">80%</MenuItem>
-                                        <MenuItem value="100%">100%</MenuItem>
+                                        <MenuItem value="Hate Speech">Hate Speech</MenuItem>
+                                        <MenuItem value="False Information">False Information</MenuItem>
+                                        <MenuItem value="Harassment">Harassment</MenuItem>
                                     </Select>
                                 </StyledTableCell>
                                 <StyledTableCell>
-                                    <Link to={`/dashboard/postComments`} style={{ textDecoration: 'none' }}>
-                                        <Button variant='contained' sx={{ backgroundColor: '#06BD95' }}>Report</Button>
-                                    </Link>
-                                    {/* <Button variant='contained' sx={{ backgroundColor: 'red', marginLeft: '10px' }} onClick={() => handleDelete(post._id)}>Delete</Button> */}
+                                    {report ?
+                                        <Link style={{ textDecoration: 'none' }}>
+                                            <Button variant='contained' sx={{ backgroundColor: '#06BD95' }} onClick={()=>handleSetReport(comment)}>Report</Button>
+                                        </Link>
+                                        :
+                                        <Link style={{ textDecoration: 'none' }}>
+                                            <Button variant='contained' sx={{ backgroundColor: '#06BD95' }} disabled>Report</Button>
+                                        </Link>
+                                    }
+
                                 </StyledTableCell>
                             </StyledTableRow>
                         ))}
@@ -129,14 +180,28 @@ const SinglePostComments = () => {
                         }
                         <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handleNextPage}><ArrowForward></ArrowForward></Button>
 
-                    </Grid> 
+                    </Grid>
+
                 </Grid>
             }
-
+            <Modal
+                open={open}
+                onClose={handleClose}
+                // comment={comment}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                    {/* {
+                        comment?.map(a=>console.log(a.data.comment))
+                    } */}
+                   
+                </Box>
+            </Modal>
 
         </Grid>
-        
-        
+
+
     );
 };
 

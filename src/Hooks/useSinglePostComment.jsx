@@ -8,7 +8,7 @@ export const useSinglePostComment = (id, currentPage, itemPerPage) => {
         axiosSecure(`http://localhost:5000/postComments/${id}?page=${currentPage}&size=${itemPerPage}`)
         .then(res=> setComments(res.data))
     },[axiosSecure, id, currentPage, itemPerPage])
-    return comments;
+    return [comments,setComments];
 };
 
 export default useSinglePostComment;
