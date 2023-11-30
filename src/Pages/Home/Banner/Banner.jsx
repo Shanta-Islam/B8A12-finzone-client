@@ -1,6 +1,7 @@
 
 import "../../../styles/HomeStyles.css";
 import { useState } from "react";
+import Tags from "./Tags";
 // import usePosts from "../../../Hooks/usePosts";
 
 const Banner = () => {
@@ -12,7 +13,7 @@ const Banner = () => {
         setSearch(searchText)
 
     }
-    console.log(search)
+    // console.log(search)
     // const posts = usePosts(search);
     return (
         <div className="header" style={{ backgroundImage: `url(https://i.ibb.co/zPmFm5k/hero-img.jpg)` }}>
@@ -21,7 +22,9 @@ const Banner = () => {
                     <input type="text" name='search' placeholder="Search here...." />
                     <button type='submit'>Search</button>
                 </form>
+                <Tags></Tags>
             </div>
+            
         </div>
 
     );
