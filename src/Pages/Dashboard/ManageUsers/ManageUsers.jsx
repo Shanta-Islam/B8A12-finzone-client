@@ -79,6 +79,7 @@ const ManageUsers = () => {
             border: 0,
         },
     }));
+    console.log(users);
     return (
         <Grid>
             <Typography variant="h4" sx={{ textAlign: 'center' }}>Manage Users</Typography>
@@ -102,7 +103,7 @@ const ManageUsers = () => {
                                 <StyledTableCell>{user?.name}</StyledTableCell>
                                 <StyledTableCell>{user?.email}</StyledTableCell>
                                 <StyledTableCell>{user.role==='admin' ? 'Admin': <Button variant='contained' sx={{ backgroundColor: '#06BD95' }} onClick={() => handleMakeAdmin(user)}>Admin</Button>}</StyledTableCell>
-                                <StyledTableCell>{memebership? 'Membership': ''}</StyledTableCell>
+                                <StyledTableCell>{user.status? 'Membership': ''}</StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>

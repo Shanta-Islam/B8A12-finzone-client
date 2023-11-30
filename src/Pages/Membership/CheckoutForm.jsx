@@ -1,72 +1,71 @@
-import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
-import axios from "axios"
-import React, { useState } from 'react'
+import { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../Context/AuthProvider";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 
+import { CircularProgress } from "@mui/material";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
-const CARD_OPTIONS = {
-	iconStyle: "solid",
-	style: {
-		base: {
-			iconColor: "#c4f0ff",
-			color: "#000",
-			
-		},
-		
-	}
-}
+const CheckoutForm = ({ clientSecret }) => {
+    const { user } = useContext(AuthContext);
+    const axiosSecure = useAxiosSecure();
+    const stripe = useStripe();
+    const elements = useElements();
+    const [isLoading, setIsLoading] = useState(false);
+    useEffect(() => {
+        if (!stripe) {
+            return
+        }
+        if (!clientSecret) {
+            return;
+        }
+        stripe.retrievePaymentIntent(clientSecret);
 
-export default function CheckoutForm() {
-    const [success, setSuccess ] = useState(false)
-    const stripe = useStripe()
-    const elements = useElements() 
-
-
+    }, [stripe, clientSecret]);
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        const {error, paymentMethod} = await stripe.createPaymentMethod({
-            type: "card",
-            card: elements.getElement(CardElement)
-        })
-
-
-    if(!error) {
-        try {
-            const {id} = paymentMethod
-            const response = await axios.post("https://finzone-server.vercel.app/payment", {
-                amount: 1000,
-                id
-            })
-
-            if(response.data.success) {
-                console.log("Successful payment")
-                setSuccess(true)
+        e.preventDefault();
+        const res = await axiosSecure.patch(`/payments/${user?.email}`);
+                console.log('payment saved', res.data);
+        
+        if (!stripe || !elements) {
+            return;
+        }
+        setIsLoading(true);
+        await stripe.confirmPayment({
+            elements,
+            confirmParams: {
+                return_url: `${import.meta.env.VITE_Payment_Gateway_PK}`
             }
-
-        } catch (error) {
-            console.log("Error", error)
-        }
-    } else {
-        console.log(error.message)
+        })
     }
-}
-
     return (
-        <>
-        {!success ? 
-        <form onSubmit={handleSubmit} style={{padding: '40px'}}>
-            <fieldset className="FormGroup">
-                <div className="FormRow">
-                    <CardElement options={CARD_OPTIONS}/>
-                </div>
-            </fieldset>
-            <button>Pay</button>
-        </form>
-        :
-       <div>
-           <h2>You just bought a sweet spatula congrats this is the best decision of you're life</h2>
-       </div> 
-        }
-            
-        </>
-    )
-}
+        <div>
+            <form onSubmit={handleSubmit} style={{ padding: '80px' }}>
+                <CardElement
+                    options={{
+                        style: {
+                            base: {
+                                fontSize: '16px',
+                                color: '#424770',
+                                '::placeholder': {
+                                    color: '#aab7c4',
+                                },
+                            },
+                            invalid: {
+                                color: '#9e2146',
+                            },
+                        },
+                    }}
+                />
+                <button type='submit'
+
+                >
+                    {isLoading ? <CircularProgress></CircularProgress> : "Pay Now"}
+
+                </button>
+
+            </form>
+        </div>
+    );
+};
+
+export default CheckoutForm;
