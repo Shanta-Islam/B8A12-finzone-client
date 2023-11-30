@@ -3,13 +3,17 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ShareIcon from '@mui/icons-material/Share';
+// import ShareIcon from '@mui/icons-material/Share';
 import { Button, Card, CardContent, CardHeader, Grid, TextField } from '@mui/material';
 import { ThumbDownAlt, ThumbUpAlt } from '@mui/icons-material';
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { useForm } from "react-hook-form";
+import { FacebookIcon, FacebookShareButton } from "react-share";
+
+
+
 
 const PostDetails = () => {
     const { user } = useContext(AuthContext)
@@ -17,14 +21,14 @@ const PostDetails = () => {
     const singlePost = useLoaderData();
     const { register, handleSubmit, reset } = useForm();
     const onSubmit = async (data) => {
-        
+
         const items = {
             email: user?.email,
-            data, 
+            data,
             postId: singlePost._id
 
         }
-        
+
         const res = await axiosSecure.post('/comments', items)
         // console.log(res.data)
         if (res.data.insertedId) {
@@ -33,7 +37,7 @@ const PostDetails = () => {
     }
     // console.log(singlePost)
     const handleLike = (id) => {
-    
+
         axiosSecure.patch(`/${id}/like`)
             .then(res => {
                 // console.log(res.data)
@@ -52,6 +56,7 @@ const PostDetails = () => {
                 }
             })
     }
+    const shareUrl = `https://finzone-server.vercel.app/post/${singlePost._id}`;
 
     return (
         <Grid component='main' container sx={{ padding: '30px 50px', gap: '15px', margin: 'auto' }}>
@@ -81,7 +86,9 @@ const PostDetails = () => {
                         <ThumbUpAlt onClick={() => handleLike(singlePost._id)}></ThumbUpAlt>
                     </IconButton>
                     <IconButton aria-label="share">
-                        <ShareIcon />
+                        <FacebookShareButton url={shareUrl} className="Demo__some-network__share-button">
+                            <FacebookIcon size={32} round />
+                        </FacebookShareButton>
                     </IconButton>
                     <IconButton aria-label="add to dislike">
                         <ThumbDownAlt onClick={() => handleDisLike(singlePost._id)}></ThumbDownAlt>
