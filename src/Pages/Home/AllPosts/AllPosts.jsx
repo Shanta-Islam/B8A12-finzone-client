@@ -58,6 +58,9 @@ const AllPosts = () => {
             setCurrentPage(currentPage + 1);
         }
     }
+
+    
+    
     // console.log(votes);
     return (
         <Grid sx={{ padding: '30px 50px', margin: 'auto' }}>
