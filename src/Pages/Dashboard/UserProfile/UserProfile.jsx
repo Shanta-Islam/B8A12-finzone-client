@@ -8,6 +8,7 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import { Link } from "react-router-dom";
 import goldBadge from '../../../assets/gold.png';
+import bronzeBadge from '../../../assets/bronze.png';
 
 const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -58,7 +59,7 @@ const UserProfile = () => {
                             overlap="circular"
                             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                             badgeContent={
-                                <Avatar alt="Travis Howard" src={users.status? `${goldBadge}`: `${data?.badge}`} sx={{ width: '30px', height: '30px' }} />
+                                <Avatar alt="Travis Howard" src={users.status? `${goldBadge}`: `${bronzeBadge}`} sx={{ width: '30px', height: '30px' }} />
 
                             }
                         >
