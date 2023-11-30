@@ -32,7 +32,7 @@ const ManageUsers = () => {
         }
     })
     useEffect(() => {
-        fetch('https://finzone-server.vercel.app/usersCount')
+        fetch('http://localhost:5000/usersCount')
             .then(res => res.json())
             .then(data => {
                 setCount(data.count)

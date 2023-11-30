@@ -35,7 +35,7 @@ const AllPosts = () => {
     
     
     useEffect(() => {
-        fetch(`https://finzone-server.vercel.app/postsCount`)
+        fetch(`http://localhost:5000/postsCount`)
             .then(res => res.json())
             .then(data => {
                 setCount(data.count)

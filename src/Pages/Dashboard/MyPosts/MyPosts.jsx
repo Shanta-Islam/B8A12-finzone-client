@@ -8,7 +8,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, CircularProgress, Grid, Typography } from "@mui/material";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import { Link } from "react-router-dom";
@@ -35,8 +35,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 const MyPosts = () => {
     const { user } = useContext(AuthContext);
-    // const axiosPublic = useAxiosPublic();
     const axiosSecure = useAxiosSecure();
+    const [posts, setPosts] =useState([]);
     const [currentPage, setCurrentPage] = useState(0);
     const [count, setCount] = useState(0);
     const [itemPerPage, SetItemPerPage] = useState(10);
@@ -44,38 +44,19 @@ const MyPosts = () => {
     const pages = [];
     for (let i = 0; i < numsOfPage; i++) {
         pages.push(i);
-    }
-    const { data: posts = [], refetch } = useQuery({
-        queryKey: ['posts'],
-        queryFn: async () => {
-            const res = await axiosSecure.get(`/posts/${user?.email}?page=${currentPage}&size=${itemPerPage}`)
-            return res.data
-        }
-
-    });
-    const handleDelete = id => {
-        axiosSecure.delete(`/post/${id}`)
-            .then(res => {
-                if (res.data.deletedCount > 0) {
-                    refetch();
-
-                }
-            })
-    }
+    }  
+    useEffect(()=>{
+        axiosSecure(`/posts/${user?.email}?page=${currentPage}&size=${itemPerPage}`)
+        .then(res=> setPosts(res.data))
+    },[axiosSecure, user?.email, currentPage, itemPerPage])
 
     useEffect(() => {
-        fetch(`https://finzone-server.vercel.app/postsCount/${user?.email}`)
+        fetch(`http://localhost:5000/postsCount/${user?.email}`)
             .then(res => res.json())
             .then(data => {
                 setCount(data.count)
-                refetch()
             })
-    }, [refetch, user?.email])
-    // const handleItemPerPage = e => {
-    //     const val = parseInt(e.target.value);
-    //     SetItemPerPage(val);
-    //     setCurrentPage(0);
-    // }
+    }, [user?.email])
     const handlePrevPage = () => {
         if (currentPage > 0) {
             setCurrentPage(currentPage - 1);
@@ -85,6 +66,16 @@ const MyPosts = () => {
         if (currentPage < pages.length - 1) {
             setCurrentPage(currentPage + 1);
         }
+    }
+
+    const handleDelete = id => {
+        axiosSecure.delete(`/post/${id}`)
+            .then(res => {
+                if (res.data.deletedCount > 0) {
+                    refetch();
+
+                }
+            })
     }
     console.log(count)
     return (
@@ -107,7 +98,7 @@ const MyPosts = () => {
                                     {index + 1}
                                 </StyledTableCell>
                                 <StyledTableCell>{post?.data?.postTitle}</StyledTableCell>
-                                <StyledTableCell>3</StyledTableCell>
+                                <StyledTableCell>{post?.upVote}</StyledTableCell>
                                 <StyledTableCell>
                                     <Link to={`/dashboard/postComments/${post._id}`} style={{textDecoration: 'none'}}>
                                         <Button variant='contained' sx={{ backgroundColor: '#06BD95' }}>Comment</Button>
@@ -119,12 +110,12 @@ const MyPosts = () => {
                 </Table>
             </TableContainer> 
             {!posts.length ?
-                "No Post Found"
+                <CircularProgress></CircularProgress>
                 :
                 <Grid sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Grid>
                         <Typography>
-                            {itemPerPage == 10 ? `Showing 0 to ${count} of ${count}` : `Showing 0 to ${itemPerPage} of ${count}`}
+                            {itemPerPage > 10 ? `Showing 0 to ${count} of ${count}` : `Showing 0 to ${itemPerPage} of ${count}`}
                         </Typography>
                     </Grid>
                     <Grid sx={{ display: 'flex', justifyContent: 'end' }}>

@@ -43,7 +43,7 @@ import Membership from "../Pages/Membership/Membership";
         {
           path: '/post/:id',
           element: <PostDetails></PostDetails>,
-          loader: ({ params }) => fetch(`https://finzone-server.vercel.app/post/${params.id}`)
+          loader: ({ params }) => fetch(`http://localhost:5000/post/${params.id}`)
         }
   
       ]
@@ -68,7 +68,7 @@ import Membership from "../Pages/Membership/Membership";
         {
           path: 'postComments/:id',
           element: <AllComments></AllComments>,
-          loader: ({params}) => fetch(`https://finzone-server.vercel.app/comment/${params.id}`)
+          loader: ({params}) => fetch(`http://localhost:5000/comment/${params.id}`)
         },
         
         // admin only routes

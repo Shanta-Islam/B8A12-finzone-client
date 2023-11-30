@@ -4,10 +4,8 @@ import { useContext } from "react";
 import { AuthContext } from "../../../Context/AuthProvider";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import { useForm } from "react-hook-form"; 
-// import { Cell, PieChart, Pie, Legend, ResponsiveContainer } from 'recharts';
-
-// const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+import { useForm } from "react-hook-form";
+import { Cell, Legend, Pie, PieChart, ResponsiveContainer } from "recharts";
 
 
 const AdminProfile = () => {
@@ -18,7 +16,8 @@ const AdminProfile = () => {
         const tagItems = {
             data
         }
-        const res = await axiosSecure.post('/tags', tagItems)
+        await axiosSecure.post('/tags', tagItems)
+            .then(res => console.log(res.data))
         reset()
         // console.log(res.data)
     }
@@ -39,33 +38,31 @@ const AdminProfile = () => {
             return res.data;
         }
     });
+    let post = stats.post;
+    let comments = stats.comments;
+    let users = stats.user;
+    console.log(post, comments,users)
+    const data2 = [
+        { name: "Total number of posts", value: post },
+        { name: "Total number of comments", value: comments },
+        { name: "Total number of users", value: users },
+    ];
+    // console.log(data2)
 
-    // console.log(stats)
-    // custom shape for the bar chart
+    const COLORS = ['#FF444A', '#00C49F', '#47CDEE'];
+    const RADIAN = Math.PI / 180;
+    const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+        const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+        const x = cx + radius * Math.cos(-midAngle * RADIAN);
+        const y = cy + radius * Math.sin(-midAngle * RADIAN);
+        return (
+            <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+                {`${(percent * 100).toFixed(0)}%`}
+            </text>
+        );
+    };
 
 
-
-    // const data1 = [
-    //     { name: "Total Donation", value: '50' },
-    //     { name: "Your Donation", value: '50'},
-    // ];
-    // const RADIAN = Math.PI / 180;
-    // const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
-    //     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    //     const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    //     const y = cy + radius * Math.sin(-midAngle * RADIAN);
-    //     return (
-    //         <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-    //             {`${(percent * 100).toFixed(0)}%`}
-    //         </text>
-    //     );
-    // };
-
-    // const pieChartData = data1.map(data => {
-    //     return {name: data.name, value: data.value}
-    // })
-
-    // return { name: data.user, value: data.comments }
 
     return (
         <Grid>
@@ -108,11 +105,11 @@ const AdminProfile = () => {
 
                 </CardActions>
             </Card>
-            {/* <ResponsiveContainer width={400} height={400} className="text-center">
+            <ResponsiveContainer width={400} height={400} className="text-center">
                 <PieChart width={400} height={400}>
                     <Legend layout="horizontal" verticalAlign="bottom" align="bottom" />
                     <Pie
-                        data={data1}
+                        data={data2}
                         cx="50%"
                         cy="50%"
                         labelLine={false}
@@ -120,12 +117,12 @@ const AdminProfile = () => {
                         outerRadius={100}
                         fill="#8884d8"
                         dataKey="value">
-                        {data.map((entry, index) => (
+                        {data2.map((entry, index) => (
                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                     </Pie>
                 </PieChart>
-            </ResponsiveContainer> */}
+            </ResponsiveContainer>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <TextField
                     label="tags"
