@@ -66,6 +66,9 @@ const PostDetails = () => {
                     subheader={singlePost.date}
                 />
                 <Typography color="text.secondary" sx={{ margin: '10px' }}>
+                    Tags: {singlePost.data.tag}
+                </Typography>
+                <Typography color="text.secondary" sx={{ margin: '10px' }}>
                     Post Title: {singlePost.data.postTitle}
                 </Typography>
                 <CardContent>
