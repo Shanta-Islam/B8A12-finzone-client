@@ -27,20 +27,20 @@ const AllPosts = () => {
     const [count, setCount] = useState(0);
     const [itemPerPage, SetItemPerPage] = useState(5);
     const numsOfPage = Math.ceil(count / itemPerPage);
-    const [votes, setVotes] = useState([]);
+    // const [votes, setVotes] = useState([]);
     const pages = [];
     for (let i = 0; i < numsOfPage; i++) {
         pages.push(i);
     }
     const posts = usePosts(currentPage, itemPerPage);
 
-    useEffect(() => {
-        fetch(`https://finzone-server.vercel.app/votes`)
-            .then(res => res.json())
-            .then(data => {
-                setVotes(data)
-            })
-    }, [])
+    // useEffect(() => {
+    //     fetch(`https://finzone-server.vercel.app/votes`)
+    //         .then(res => res.json())
+    //         .then(data => {
+    //             setVotes(data)
+    //         })
+    // }, [])
     useEffect(() => {
         fetch(`https://finzone-server.vercel.app/postsCount`)
             .then(res => res.json())
