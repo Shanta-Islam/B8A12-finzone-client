@@ -43,13 +43,13 @@ const ReportedComments = () => {
     }
     const [reports, setReports] = useState([]);
     useEffect(() => {
-        axiosSecure(`https://finzone-server.vercel.app/reports?page=${currentPage}&size=${itemPerPage}`)
+        axiosSecure(`http://localhost:5000/reports?page=${currentPage}&size=${itemPerPage}`)
             .then(res => setReports(res.data))
     }, [axiosSecure, currentPage, itemPerPage])
     console.log(reports);
 
     useEffect(() => {
-        fetch(`https://finzone-server.vercel.app/reportsCount`)
+        fetch(`http://localhost:5000/reportsCount`)
             .then(res => res.json())
             .then(data => {
                 setCount(data.count)

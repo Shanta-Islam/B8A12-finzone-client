@@ -11,8 +11,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { useForm } from "react-hook-form";
 import { FacebookIcon, FacebookShareButton } from "react-share";
-
-
+import toast, { Toaster } from "react-hot-toast";
 
 
 const PostDetails = () => {
@@ -29,34 +28,49 @@ const PostDetails = () => {
 
         }
 
-        const res = await axiosSecure.post('/comments', items)
-        // console.log(res.data)
-        if (res.data.insertedId) {
-            reset();
+        if (user) {
+            const res = await axiosSecure.post('/comments', items)
+            // console.log(res.data)
+            if (res.data.insertedId) {
+                reset();
+            }
+        }
+        else{
+            toast.error('Please Login First');
         }
     }
     // console.log(singlePost)
     const handleLike = (id) => {
 
-        axiosSecure.patch(`/${id}/like`)
-            .then(res => {
-                // console.log(res.data)
-                if (res.data.modifiedCount > 0) {
-                    // refetch();
-                }
-            })
+        if (user) {
+            axiosSecure.get(`/upvote/${id}`)
+                .then(res => {
+                    // console.log(res.data)
+                    if (res.data.modifiedCount > 0) {
+                        // refetch();
+                    }
+                })
+        }
+        else {
+            toast.error('Please Login First');
+        }
         // console.log(id)
     }
     const handleDisLike = (id) => {
-        axiosSecure.patch(`/${id}/dislike`)
-            .then(res => {
-                // console.log(res.data)
-                if (res.data.modifiedCount > 0) {
-                    // refetch();
-                }
-            })
+        if (user) {
+            axiosSecure.get(`/downvote/${id}`)
+                .then(res => {
+                    console.log(res.data)
+                    // if (res.data.modifiedCount > 0) {
+                    //     // refetch();
+                    // }
+                })
+        }
+        else {
+            toast.error('Please Login First');
+        }
     }
-    const shareUrl = `https://finzone-server.vercel.app/post/${singlePost._id}`;
+    const shareUrl = `http://localhost:5000/post/${singlePost._id}`;
 
     return (
         <Grid component='main' container sx={{ padding: '30px 50px', gap: '15px', margin: 'auto' }}>
@@ -99,7 +113,7 @@ const PostDetails = () => {
                     <Button variant='contained' sx={{ backgroundColor: '#06BD95', margin: '10px 0px', display: 'flex', justifyContent: 'end' }} type="submit">Comment</Button>
                 </form>
             </Card>
-
+            <Toaster />
         </Grid>
     );
 };

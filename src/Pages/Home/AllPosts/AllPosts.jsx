@@ -25,7 +25,7 @@ const AllPosts = () => {
     const [asc, setAsc] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const [count, setCount] = useState(0);
-    const [itemPerPage, SetItemPerPage] = useState(5);
+    const [itemPerPage, SetItemPerPage] = useState(6);
     const numsOfPage = Math.ceil(count / itemPerPage);
     // const [votes, setVotes] = useState([]);
     const pages = [];
@@ -34,15 +34,8 @@ const AllPosts = () => {
     }
     const posts = usePosts(currentPage, itemPerPage);
 
-    // useEffect(() => {
-    //     fetch(`https://finzone-server.vercel.app/votes`)
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             setVotes(data)
-    //         })
-    // }, [])
     useEffect(() => {
-        fetch(`https://finzone-server.vercel.app/postsCount`)
+        fetch(`http://localhost:5000/postsCount`)
             .then(res => res.json())
             .then(data => {
                 setCount(data.count)
@@ -58,17 +51,16 @@ const AllPosts = () => {
             setCurrentPage(currentPage + 1);
         }
     }
-
     
     
-    // console.log(votes);
+    
     return (
         <Grid sx={{ padding: '30px 50px', margin: 'auto' }}>
             <Button variant='contained' sx={{ margin: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#06BD95' }} onClick={() => setAsc(!asc)}>Sort By Popularity</Button>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
                     {
-                        posts?.map(post => <Grid key={post._id} item xs={12} md={4}>
+                        posts?.reverse().map(post => <Grid key={post._id} item xs={12} md={4}>
                             <Item >
                                 <Card sx={{ maxWidth: 345, margin: 'auto' }} item xs={6}>
 
@@ -97,7 +89,7 @@ const AllPosts = () => {
                                             <IconButton aria-label="add to like" sx={{ border: '1px solid gray', borderRadius: '0', padding: '1px 20px' }}>
                                                 <ThumbUpAlt></ThumbUpAlt>
                                                 <Divider orientation="vertical" flexItem />
-                                                {/* <Typography sx={{ margin: '0px 6px' }}>{v.voteDifference}</Typography> */}
+                                                <Typography sx={{ margin: '0px 6px' }}>{post.voteDifference}</Typography>
                                             </IconButton>
                                             <IconButton aria-label="share">
                                                 <CommentRounded />

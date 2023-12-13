@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 const ManageUsers = () => {
     const axiosSecure = useAxiosSecure();
     const [currentPage, setCurrentPage] = useState(0);
-    const [memebership, setMembership]=useState('');
     const [count, setCount] = useState(0);
     const [itemPerPage, SetItemPerPage] = useState(10);
     const numsOfPage = Math.ceil(count / itemPerPage);
@@ -33,7 +32,7 @@ const ManageUsers = () => {
         }
     })
     useEffect(() => {
-        fetch('https://finzone-server.vercel.app/usersCount')
+        fetch('http://localhost:5000/usersCount')
             .then(res => res.json())
             .then(data => {
                 setCount(data.count)

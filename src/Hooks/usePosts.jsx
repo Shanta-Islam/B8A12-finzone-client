@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useAxiosPublic from './useAxiosPublic';
+import useAxiosPublic from './useAxiosPublic'; 
 
 export const usePosts = (currentPage, itemPerPage) => {
     const axiosPublic = useAxiosPublic();
