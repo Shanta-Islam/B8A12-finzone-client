@@ -14,7 +14,7 @@ const AddPost = () => {
 
     const axiosPublic = useAxiosPublic();
     const { user } = useContext(AuthContext);
-    const { register, handleSubmit, reset } = useForm();
+    const { register, handleSubmit } = useForm();
     const date = new Date().toDateString();
     useEffect(() => {
         axiosPublic.get('/tags')

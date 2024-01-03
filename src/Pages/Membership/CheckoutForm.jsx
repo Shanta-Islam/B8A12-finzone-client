@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider";
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 
-import { CircularProgress } from "@mui/material";
+// import { CircularProgress } from "@mui/material";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const CheckoutForm = ({ clientSecret }) => {
