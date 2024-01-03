@@ -35,7 +35,7 @@ const AllPosts = () => {
     const posts = usePosts(currentPage, itemPerPage);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/postsCount`)
+        fetch(`https://finzone-server.vercel.app/postsCount`)
             .then(res => res.json())
             .then(data => {
                 setCount(data.count)
@@ -51,9 +51,9 @@ const AllPosts = () => {
             setCurrentPage(currentPage + 1);
         }
     }
-    
-    
-    
+
+
+
     return (
         <Grid sx={{ padding: '30px 50px', margin: 'auto' }}>
             <Button variant='contained' sx={{ margin: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#06BD95' }} onClick={() => setAsc(!asc)}>Sort By Popularity</Button>
@@ -88,8 +88,12 @@ const AllPosts = () => {
                                         <CardActions disableSpacing sx={{ pointerEvents: 'none' }}>
                                             <IconButton aria-label="add to like" sx={{ border: '1px solid gray', borderRadius: '0', padding: '1px 20px' }}>
                                                 <ThumbUpAlt></ThumbUpAlt>
+                                                <Typography sx={{ margin: '0px 6px' }}>{post.upVote}</Typography>
                                                 <Divider orientation="vertical" flexItem />
-                                                <Typography sx={{ margin: '0px 6px' }}>{post.voteDifference}</Typography>
+                                                <ThumbDownAlt></ThumbDownAlt>
+                                                <Typography sx={{ margin: '0px 6px' }}>{post.downVote}</Typography>
+                                                {/* <Divider orientation="vertical" flexItem />
+                                                <Typography sx={{ margin: '0px 6px' }}>{post.voteDifference}</Typography> */}
                                             </IconButton>
                                             <IconButton aria-label="share">
                                                 <CommentRounded />

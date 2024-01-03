@@ -45,7 +45,7 @@ export const router = createBrowserRouter([
       {
         path: '/post/:id',
         element: <PostDetails></PostDetails>,
-        loader: ({ params }) => fetch(`http://localhost:5000/post/${params.id}`)
+        loader: ({ params }) => fetch(`https://finzone-server.vercel.app/post/${params.id}`)
       }
 
     ]

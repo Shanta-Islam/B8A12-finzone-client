@@ -3,13 +3,14 @@ import useAxiosPublic from "../../../Hooks/useAxiosPublic";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Context/AuthProvider";
 import { Box, Button, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const AddPost = () => {
+    const navigate = useNavigate();
     const [tags, setTags] = useState([]);
     const [posts, setPosts] = useState([]);
-    const [users, setUsers] = useState([]);
+    const [userInfo, setUserInfo] = useState([]);
 
     const axiosPublic = useAxiosPublic();
     const { user } = useContext(AuthContext);
@@ -30,7 +31,7 @@ const AddPost = () => {
     useEffect(() => {
         axiosPublic.get(`/user/${user?.email}`)
             .then(res => {
-                setUsers(res.data)
+                setUserInfo(res.data)
             })
     }, [axiosPublic, user?.email])
     // console.log(tags)
@@ -43,13 +44,39 @@ const AddPost = () => {
             data
         }
         const res = await axiosPublic.post('/posts', postItems)
-        reset()
+        navigate("/dashboard/myPost")
+        // reset()
+
         console.log(res.data)
     }
-    // console.log(users.status)
+    // console.log((!userInfo?.status, posts.count))
     return (
         <Grid elevation={6} square>
-            {(users?.status || posts.count>5) ?  <Box
+            {!userInfo?.status && posts.count>=5 ?
+                <Box sx={{
+                    my: 3,
+                    textAlign: "center",
+                    p: 2,
+                    "& h4": {
+                        fontWeight: "bold",
+                        my: 2,
+                        fontSize: "2rem",
+                    },
+                    "& p": {
+                        textAlign: "justify",
+                    },
+                    "@media (max-width:600px)": {
+                        mt: 0,
+                        "& h4 ": {
+                            fontSize: "1.5rem",
+                        },
+                    },
+                }}>
+                    <Link to='/membership'><Button variant='contained' sx={{ backgroundColor: '#06BD95', marginTop: '10px' }}>Become a member</Button></Link>
+
+                </Box>
+                :
+                <Box
                     sx={{
                         my: 3,
                         textAlign: "center",
@@ -139,31 +166,11 @@ const AddPost = () => {
                         </Button>
                     </form>
 
-                </Box > :
-                <Box sx={{
-                    my: 3,
-                    textAlign: "center",
-                    p: 2,
-                    "& h4": {
-                        fontWeight: "bold",
-                        my: 2,
-                        fontSize: "2rem",
-                    },
-                    "& p": {
-                        textAlign: "justify",
-                    },
-                    "@media (max-width:600px)": {
-                        mt: 0,
-                        "& h4 ": {
-                            fontSize: "1.5rem",
-                        },
-                    },
-                }}>
-                    <Link to='/membership'><Button  variant='contained' sx={{ backgroundColor: '#06BD95', marginTop: '10px' }}>Become a member</Button></Link>
+                </Box >
 
-                </Box>
-               
+
             }
+
         </Grid>
     );
 };

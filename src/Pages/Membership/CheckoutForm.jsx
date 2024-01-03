@@ -60,7 +60,7 @@ const CheckoutForm = ({ clientSecret }) => {
                 <button type='submit'
 
                 >
-                    {isLoading ? <CircularProgress></CircularProgress> : "Pay Now"}
+                    {isLoading ? "Paid" : "Pay Now"}
 
                 </button>
 

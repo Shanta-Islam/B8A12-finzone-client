@@ -43,7 +43,7 @@ const PostDetails = () => {
     const handleLike = (id) => {
 
         if (user) {
-            axiosSecure.get(`/upvote/${id}`)
+            axiosSecure.patch(`/${id}/like`)
                 .then(res => {
                     // console.log(res.data)
                     if (res.data.modifiedCount > 0) {
@@ -58,7 +58,7 @@ const PostDetails = () => {
     }
     const handleDisLike = (id) => {
         if (user) {
-            axiosSecure.get(`/downvote/${id}`)
+            axiosSecure.patch(`/${id}/dislike`)
                 .then(res => {
                     console.log(res.data)
                     // if (res.data.modifiedCount > 0) {
@@ -70,7 +70,7 @@ const PostDetails = () => {
             toast.error('Please Login First');
         }
     }
-    const shareUrl = `http://localhost:5000/post/${singlePost._id}`;
+    const shareUrl = `https://finzone-server.vercel.app/post/${singlePost._id}`;
 
     return (
         <Grid component='main' container sx={{ padding: '30px 50px', gap: '15px', margin: 'auto' }}>
