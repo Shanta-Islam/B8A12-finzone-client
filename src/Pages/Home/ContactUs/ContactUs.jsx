@@ -5,7 +5,7 @@ const ContactUs = () => {
         <Grid item elevation={6} square>
             <Box
                 sx={{
-                    m: 15,
+                    m: 5,
                     textAlign: "center",
                     p: 2,
                     "& h4": {
@@ -63,7 +63,7 @@ const ContactUs = () => {
                     />
                     <Button
                         variant="contained"
-                        sx={{ backgroundColor: '#06BD95', marginTop: '10px' }}
+                        sx={{ backgroundColor: '#00A9FF', marginTop: '10px' }}
                         type="submit"
                         fullWidth
                     >

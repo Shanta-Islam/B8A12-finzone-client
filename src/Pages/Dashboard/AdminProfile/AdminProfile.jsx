@@ -135,7 +135,7 @@ const AdminProfile = () => {
                 />
                 <Button
                     variant="contained"
-                    sx={{ backgroundColor: '#06BD95', marginTop: '10px' }}
+                    sx={{ backgroundColor: '#00A9FF', marginTop: '10px' }}
                     type="submit"
                     fullWidth
                 >

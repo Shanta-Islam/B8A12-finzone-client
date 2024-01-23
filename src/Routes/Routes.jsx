@@ -18,6 +18,7 @@ import Membership from "../Pages/Membership/Membership";
 import SinglePostComments from "../Pages/Dashboard/SinglePostComments/SinglePostComments";
 import ReportedComments from "../Pages/Dashboard/ReportedComments/ReportedComments";
 import PrivateRoute from "./PrivateRoute";
+import About from "../Pages/About/About";
 
 
 
@@ -28,7 +29,12 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '/',
+        loader: ()=> fetch('https://finzone-server.vercel.app/posts'),
         element: <Home></Home>
+      },
+      {
+        path: '/about',
+        element: <About></About>
       },
       {
         path: '/membership',

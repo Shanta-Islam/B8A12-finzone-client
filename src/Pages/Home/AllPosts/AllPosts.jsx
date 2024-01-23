@@ -8,31 +8,21 @@ import Typography from '@mui/material/Typography';
 import { Box, Button, Divider, Grid } from '@mui/material';
 import { ArrowBack, ArrowForward, CommentRounded, ThumbDownAlt, ThumbUpAlt } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
-import usePosts from '../../../Hooks/usePosts';
+// import usePosts from '../../../Hooks/usePosts';
 import { useEffect, useState } from 'react';
-import { styled } from '@mui/material/styles';
+import PropTypes from 'prop-types';
 
-import Paper from '@mui/material/Paper';
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-}));
-const AllPosts = () => {
+const AllPosts = ({postsList}) => {
     const [asc, setAsc] = useState(true);
-    const [currentPage, setCurrentPage] = useState(0);
     const [count, setCount] = useState(0);
-    const [itemPerPage, SetItemPerPage] = useState(6);
+    const [currentPage, setCurrentPage] = useState(0);
+    const itemPerPage = 2;
     const numsOfPage = Math.ceil(count / itemPerPage);
-    // const [votes, setVotes] = useState([]);
     const pages = [];
     for (let i = 0; i < numsOfPage; i++) {
         pages.push(i);
     }
-    const posts = usePosts(currentPage, itemPerPage);
+    // const posts = usePosts(currentPage, itemPerPage);
 
     useEffect(() => {
         fetch(`https://finzone-server.vercel.app/postsCount`)
@@ -41,91 +31,96 @@ const AllPosts = () => {
                 setCount(data.count)
             })
     }, [])
-    const handlePrevPage = () => {
-        if (currentPage > 0) {
-            setCurrentPage(currentPage - 1);
-        }
-    }
-    const handleNextPage = () => {
-        if (currentPage < pages.length - 1) {
-            setCurrentPage(currentPage + 1);
-        }
-    }
+    // const handlePrevPage = () => {
+    //     if (currentPage > 0) {
+    //         setCurrentPage(currentPage - 1);
+    //     }
+    // }
+    // const handleNextPage = () => {
+    //     if (currentPage < pages.length - 1) {
+    //         setCurrentPage(currentPage + 1);
+    //     }
+    // }
 
 
+    // const rows = postsList.slice(currentPage % itemPerPage, currentPage + 1 % itemPerPage);
+    // const handlePageChange = (pageNumber)=>{
+    //     setCurrentPage(pageNumber);
+    // }
 
     return (
         <Grid sx={{ padding: '30px 50px', margin: 'auto' }}>
-            <Button variant='contained' sx={{ margin: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#06BD95' }} onClick={() => setAsc(!asc)}>Sort By Popularity</Button>
+            {/* <Button variant='contained' sx={{ margin: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#00A9FF' }} onClick={() => setAsc(!asc)}>Sort By Popularity</Button> */}
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
                     {
-                        posts?.reverse().map(post => <Grid key={post._id} item xs={12} md={4}>
-                            <Item >
-                                <Card sx={{ maxWidth: 345, margin: 'auto' }} item xs={6}>
+                        postsList?.reverse().map(post => <Grid key={post._id} item xs={12} md={12}>
+                            <Card sx={{ margin: 'auto' }} item xs={12}>
 
-                                    <Link to={`/post/${post._id}`} style={{ textDecoration: 'none' }}>
-                                        <CardHeader
-                                            avatar={
-                                                <Avatar aria-label="recipe" src={post?.data.authorImg}>
+                                <Link to={`/post/${post._id}`} style={{ textDecoration: 'none' }}>
+                                    <CardHeader
+                                        avatar={
+                                            <Avatar aria-label="recipe" src={post?.data.authorImg}>
 
-                                                </Avatar>
-                                            }
-                                            title={post.data.authorName}
-                                            subheader={post.date}
-                                        />
-                                        <Typography color="text.secondary" sx={{ margin: '10px' }}>
-                                            Tags: {post.data.tag}
+                                            </Avatar>
+                                        }
+                                        title={post.data.authorName}
+                                        subheader={post.date}
+                                    />
+                                    <Typography color="text.secondary" sx={{ margin: '10px' }}>
+                                        Tags: {post.data.tag}
+                                    </Typography>
+                                    <Typography color="text.secondary" sx={{ margin: '10px' }}>
+                                        Post Title: {post.data.postTitle}
+                                    </Typography>
+                                    <CardContent>
+                                        <Typography variant="body2" color="text.secondary">
+                                            {post.data.postDesc.slice(0, 100)}...
                                         </Typography>
-                                        <Typography color="text.secondary" sx={{ margin: '10px' }}>
-                                            Post Title: {post.data.postTitle}
-                                        </Typography>
-                                        <CardContent>
-                                            <Typography variant="body2" color="text.secondary">
-                                                {post.data.postDesc.slice(0, 100)}...
-                                            </Typography>
-                                        </CardContent>
-                                        <CardActions disableSpacing sx={{ pointerEvents: 'none' }}>
-                                            <IconButton aria-label="add to like" sx={{ border: '1px solid gray', borderRadius: '0', padding: '1px 20px' }}>
-                                                <ThumbUpAlt></ThumbUpAlt>
-                                                <Typography sx={{ margin: '0px 6px' }}>{post.upVote}</Typography>
-                                                <Divider orientation="vertical" flexItem />
-                                                <ThumbDownAlt></ThumbDownAlt>
-                                                <Typography sx={{ margin: '0px 6px' }}>{post.downVote}</Typography>
-                                                {/* <Divider orientation="vertical" flexItem />
-                                                <Typography sx={{ margin: '0px 6px' }}>{post.voteDifference}</Typography> */}
-                                            </IconButton>
-                                            <IconButton aria-label="share">
-                                                <CommentRounded />
-                                            </IconButton>
+                                    </CardContent>
+                                    <CardActions disableSpacing sx={{ pointerEvents: 'none' }}>
+                                        <IconButton aria-label="add to like" sx={{ border: '1px solid gray', borderRadius: '0', padding: '1px 20px' }}>
+                                            <ThumbUpAlt></ThumbUpAlt>
+                                            <Typography sx={{ margin: '0px 6px' }}>{post.upVote}</Typography>
+                                            <Divider orientation="vertical" flexItem />
+                                            <ThumbDownAlt></ThumbDownAlt>
+                                            <Typography sx={{ margin: '0px 6px' }}>{post.downVote}</Typography>
+                                            {/* <Divider orientation="vertical" flexItem />
+            <Typography sx={{ margin: '0px 6px' }}>{post.voteDifference}</Typography> */}
+                                        </IconButton>
+                                        <IconButton aria-label="share">
+                                            <CommentRounded />
+                                        </IconButton>
 
-                                        </CardActions></Link>
+                                    </CardActions></Link>
 
-                                </Card>
-                            </Item>
+                            </Card>
                         </Grid>)
                     }
 
 
                 </Grid>
             </Box>
-            <Grid sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            {/* <Grid sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Grid>
                     <Typography>
                         {itemPerPage > 5 ? `Showing 0 to ${count} of ${count}` : `Showing 0 to ${itemPerPage} of ${count}`}
                     </Typography>
                 </Grid>
                 <Grid sx={{ display: 'flex', justifyContent: 'end' }}>
-                    <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handlePrevPage}><ArrowBack></ArrowBack></Button>
+                    <Button variant="contained" sx={{ backgroundColor: '#00A9FF' }} onClick={()=>handlePageChange(currentPage -1)}><ArrowBack></ArrowBack></Button>
                     {
                         pages.map(page => <Button onClick={() => setCurrentPage(page)} key={page}>{page}</Button>)
                     }
-                    <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handleNextPage}><ArrowForward></ArrowForward></Button>
+                    <Button variant="contained" sx={{ backgroundColor: '#00A9FF' }} onClick={()=>handlePageChange(currentPage +1)}><ArrowForward></ArrowForward></Button>
 
                 </Grid>
-            </Grid>
+            </Grid> */}
         </Grid>
     );
 };
 
+AllPosts.propTypes = {
+    postsList: PropTypes.object,
+}
 export default AllPosts;

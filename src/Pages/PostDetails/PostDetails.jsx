@@ -110,7 +110,7 @@ const PostDetails = () => {
                 </CardActions>
                 <form onSubmit={handleSubmit(onSubmit)} style={{ height: '200px', margin: '10px' }}>
                     <TextField fullWidth label='comment here' {...register("comment")} required></TextField>
-                    <Button variant='contained' sx={{ backgroundColor: '#06BD95', margin: '10px 0px', display: 'flex', justifyContent: 'end' }} type="submit">Comment</Button>
+                    <Button variant='contained' sx={{ backgroundColor: '#00A9FF', margin: '10px 0px', display: 'flex', justifyContent: 'end' }} type="submit">Comment</Button>
                 </form>
             </Card>
             <Toaster />

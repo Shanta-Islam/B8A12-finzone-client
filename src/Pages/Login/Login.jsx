@@ -70,7 +70,7 @@ const Login = () => {
                 sx={{
                     backgroundImage: 'url(https://i.ibb.co/c3j6YMD/bg.png)',
                     backgroundRepeat: 'no-repeat',
-                    backgroundColor: '#06BD95',
+                    backgroundColor: '#00A9FF',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                 }}

@@ -147,11 +147,11 @@ const SinglePostComments = () => {
                                 <StyledTableCell>
                                     {report ?
                                         <Link style={{ textDecoration: 'none' }}>
-                                            <Button variant='contained' sx={{ backgroundColor: '#06BD95' }} onClick={()=>handleSetReport(comment)}>Report</Button>
+                                            <Button variant='contained' sx={{ backgroundColor: '#00A9FF' }} onClick={()=>handleSetReport(comment)}>Report</Button>
                                         </Link>
                                         :
                                         <Link style={{ textDecoration: 'none' }}>
-                                            <Button variant='contained' sx={{ backgroundColor: '#06BD95' }} disabled>Report</Button>
+                                            <Button variant='contained' sx={{ backgroundColor: '#00A9FF' }} disabled>Report</Button>
                                         </Link>
                                     }
 
@@ -171,11 +171,11 @@ const SinglePostComments = () => {
                         </Typography>
                     </Grid>
                     <Grid sx={{ display: 'flex', justifyContent: 'end' }}>
-                        <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handlePrevPage}><ArrowBack></ArrowBack></Button>
+                        <Button variant="contained" sx={{ backgroundColor: '#00A9FF' }} onClick={handlePrevPage}><ArrowBack></ArrowBack></Button>
                         {
                             pages.map(page => <Button onClick={() => setCurrentPage(page)} key={page}>{page}</Button>)
                         }
-                        <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handleNextPage}><ArrowForward></ArrowForward></Button>
+                        <Button variant="contained" sx={{ backgroundColor: '#00A9FF' }} onClick={handleNextPage}><ArrowForward></ArrowForward></Button>
 
                     </Grid>
 

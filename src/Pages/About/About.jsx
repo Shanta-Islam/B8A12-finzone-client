@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const About = () => {
     return (
-        <Grid container component="main" sx={{padding: '0px 50px'}}>
+        <Grid container component="main" sx={{ padding: '0px 50px' }}>
             <Box
                 sx={{
                     my: 4,
@@ -25,12 +25,12 @@ const About = () => {
                     },
                 }}
             >
-                <Typography variant="h4">JOIN OUR FORUM !</Typography>
-                <Typography>Talk about anything that's on your mind and see what others think. As a guest to our forum you are only able to view posts. When you register with the Forumix forum you can join in with topics, start new topics and generally be a part of the first level of our community.</Typography>
-                <Link to='/register'><Button variant="contained" sx={{backgroundColor: '#00A9FF', my: '20px'}}>Register</Button></Link>
+                <Typography variant="h4">About</Typography>
+                <Typography variant="p">There are two types of users like normal users and premium user. Normal users create only 5 posts and premium users create more than 5 posts.</Typography>
+                <Typography variant="p">If you are not registered member yet than please </Typography>
+                <Link to='/register'><Button variant="contained" sx={{ backgroundColor: '#00A9FF', my: '20px' }}>Register</Button></Link>
             </Box>
         </Grid>
-
     );
 };
 

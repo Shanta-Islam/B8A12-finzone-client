@@ -1,25 +1,31 @@
-
+import PropTypes from 'prop-types'; 
 import "../../../styles/HomeStyles.css";
-// import { useContext, useState } from "react";
 import Tags from "./Tags";
-// import { SearchContext } from "../../../Context/SearchContextProvider";
-// import usePosts from "../../../Hooks/usePosts";
 
-const Banner = () => {
+const Banner = ({setSearchVal, handleSearchClick}) => {
    
     return (
-        <div className="header" style={{ backgroundImage: `url(https://i.ibb.co/zPmFm5k/hero-img.jpg)` }}>
+        <div className="header">
             <div className="headerContainer">
+                <div className='headerText'>
+                    <h2>Welcome to Finzone Community</h2>
+                </div>
                 <form>
-                    <input type="text" name='search'  placeholder="Search here...." />
-                    <button type='submit' >Search</button>
+                    <input  onChange={(e) => setSearchVal(e.target.value)} type="text" name='search'  placeholder="Search by tags...." />
+                    <button  onClick={handleSearchClick} >Search</button>
                 </form>
-                <Tags></Tags>
+                {/* <Tags></Tags> */}
             </div>
             
         </div>
 
     );
 };
+
+Banner.propTypes = {
+    handleSearchClick: PropTypes.func,
+    setSearchVal : PropTypes.func,
+    Filter : PropTypes.func
+}
 
 export default Banner;

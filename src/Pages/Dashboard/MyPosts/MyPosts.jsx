@@ -99,7 +99,7 @@ const MyPosts = () => {
                                     <StyledTableCell>{post?.upVote}</StyledTableCell>
                                     <StyledTableCell>
                                         <Link to={`/dashboard/postComments/${post._id}`} style={{ textDecoration: 'none' }}>
-                                            <Button variant='contained' sx={{ backgroundColor: '#06BD95' }}>Comment</Button>
+                                            <Button variant='contained' sx={{ backgroundColor: '#00A9FF' }}>Comment</Button>
                                         </Link>
                                         <Button variant='contained' sx={{ backgroundColor: 'red', marginLeft: '10px' }} onClick={() => handleDelete(post._id)}>Delete</Button></StyledTableCell>
                                 </StyledTableRow>
@@ -120,11 +120,11 @@ const MyPosts = () => {
                         </Typography>
                     </Grid>
                     <Grid sx={{ display: 'flex', justifyContent: 'end' }}>
-                        <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handlePrevPage}><ArrowBack></ArrowBack></Button>
+                        <Button variant="contained" sx={{ backgroundColor: '#00A9FF' }} onClick={handlePrevPage}><ArrowBack></ArrowBack></Button>
                         {
                             pages.map(page => <Button onClick={() => setCurrentPage(page)} key={page}>{page}</Button>)
                         }
-                        <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handleNextPage}><ArrowForward></ArrowForward></Button>
+                        <Button variant="contained" sx={{ backgroundColor: '#00A9FF' }} onClick={handleNextPage}><ArrowForward></ArrowForward></Button>
 
                     </Grid>
                 </Grid>

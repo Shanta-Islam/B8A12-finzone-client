@@ -101,7 +101,7 @@ const ManageUsers = () => {
                                 </StyledTableCell>
                                 <StyledTableCell>{user?.name}</StyledTableCell>
                                 <StyledTableCell>{user?.email}</StyledTableCell>
-                                <StyledTableCell>{user.role==='admin' ? 'Admin': <Button variant='contained' sx={{ backgroundColor: '#06BD95' }} onClick={() => handleMakeAdmin(user)}>Admin</Button>}</StyledTableCell>
+                                <StyledTableCell>{user.role==='admin' ? 'Admin': <Button variant='contained' sx={{ backgroundColor: '#00A9FF' }} onClick={() => handleMakeAdmin(user)}>Admin</Button>}</StyledTableCell>
                                 <StyledTableCell>{user.status? 'Membership': ''}</StyledTableCell>
                             </StyledTableRow>
                         ))}
@@ -115,11 +115,11 @@ const ManageUsers = () => {
                     </Typography>
                 </Grid>
                 <Grid sx={{ display: 'flex', justifyContent: 'end' }}>
-                    <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handlePrevPage}><ArrowBack></ArrowBack></Button>
+                    <Button variant="contained" sx={{ backgroundColor: '#00A9FF' }} onClick={handlePrevPage}><ArrowBack></ArrowBack></Button>
                     {
                         pages.map(page => <Button onClick={() => setCurrentPage(page)} key={page}>{page}</Button>)
                     }
-                    <Button variant="contained" sx={{ backgroundColor: '#06BD95' }} onClick={handleNextPage}><ArrowForward></ArrowForward></Button>
+                    <Button variant="contained" sx={{ backgroundColor: '#00A9FF' }} onClick={handleNextPage}><ArrowForward></ArrowForward></Button>
 
                 </Grid>
             </Grid>

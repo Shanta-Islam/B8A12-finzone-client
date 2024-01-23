@@ -7,6 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 
 const AddPost = () => {
+
+   
     const navigate = useNavigate();
     const [tags, setTags] = useState([]);
     const [posts, setPosts] = useState([]);
@@ -72,7 +74,7 @@ const AddPost = () => {
                         },
                     },
                 }}>
-                    <Link to='/membership'><Button variant='contained' sx={{ backgroundColor: '#06BD95', marginTop: '10px' }}>Become a member</Button></Link>
+                    <Link to='/membership'><Button variant='contained' sx={{ backgroundColor: '#00A9FF', marginTop: '10px' }}>Become a member</Button></Link>
 
                 </Box>
                 :
@@ -158,7 +160,7 @@ const AddPost = () => {
                         </Select>
                         <Button
                             variant="contained"
-                            sx={{ backgroundColor: '#06BD95', marginTop: '10px' }}
+                            sx={{ backgroundColor: '#00A9FF', marginTop: '10px' }}
                             type="submit"
                             fullWidth
                         >

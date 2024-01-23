@@ -19,7 +19,7 @@ import Logo from "../../../assets/logo.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, NavLink } from "react-router-dom";
 import "../../../styles/HeaderStyles.css";
-import { AccountCircle } from '@mui/icons-material';
+import { AccountCircle, Translate } from '@mui/icons-material';
 import { AuthContext } from '../../../Context/AuthProvider';
 import useAxiosPublic from '../../../Hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
@@ -48,17 +48,14 @@ const Navbar = () => {
         queryKey: ['announcements'],
         queryFn: async () => {
             const res = await axiosPublic.get(`/announcements`)
-
             return res.data
-
-
         }
     })
     //menu drawer
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
             <Typography
-                color={"goldenrod"}
+                
                 variant="h6"
                 component="div"
                 sx={{ flexGrow: 1, my: 2 }}
@@ -118,7 +115,8 @@ const Navbar = () => {
     return (
         <>
             <Box>
-                <AppBar component={"nav"} sx={{ bgcolor: "#06BD95" }}>
+                {/* <AppBar component={"nav"} sx={{ bgcolor: "#fff", position: "absolute", width: "1200px", left:"50%", top: "10%", transform: "translate(-50%, -50%)", borderRadius: "6px", }}> */}
+                <AppBar component={"nav"} sx={{ bgcolor: "#fff" }}>
                     <Toolbar>
                         <IconButton
                             color="inherit"
@@ -133,7 +131,7 @@ const Navbar = () => {
                             <MenuIcon />
                         </IconButton>
                         <Typography
-                            color={"white"}
+                            color={"black"}
                             variant="h4"
                             component="div"
                             sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', }}
@@ -144,15 +142,19 @@ const Navbar = () => {
                             </Typography>
 
                         </Typography>
-                        <Box sx={{ display: { xs: "none", sm: "block" } }}>
+                        <Box sx={{ display: { xs: "none", sm: "block" } }} color={"black"}>
                             <ul className="navigation-menu">
                                 <li>
                                     <NavLink to="/" className={({ isActive, isPending }) =>
-                                        isPending ? "pending" : isActive ? " hover:text-white focus:text-white text-white px-5 py-2 text-md rounded bg-transparent underline" : " hover:text-white text-white px-5 py-2 mx-2 text-md rounded"}>Home</NavLink>
+                                        isPending ? "pending" : isActive ? "" : ""}>Home</NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/about" className={({ isActive, isPending }) =>
+                                        isPending ? "pending" : isActive ? "" : ""}>About</NavLink>
                                 </li>
                                 <li>
                                     <NavLink to="/membership" className={({ isActive, isPending }) =>
-                                        isPending ? "pending" : isActive ? " hover:text-white focus:text-white text-white px-5 py-2 text-md rounded bg-transparent underline" : " hover:text-white text-white px-5 py-2 mx-2 text-md rounded"}>Membership</NavLink>
+                                        isPending ? "pending" : isActive ? "" : ""}>Membership</NavLink>
                                 </li>
                                 <li><Badge badgeContent={data?.length} color="primary"><NotificationsIcon ></NotificationsIcon></Badge></li>
 
@@ -206,6 +208,7 @@ const Navbar = () => {
                             "& .MuiDrawer-paper": {
                                 boxSizing: "border-box",
                                 width: "240px",
+                                
                             },
                         }}
                     >
